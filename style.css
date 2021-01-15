@@ -1,0 +1,26 @@
+@font-face{
+    font-family: Rubik;
+    src: url('./assets/Rubik-Regular.ttf');
+}
+
+*{
+    font-family: Rubik;
+}
+body{
+    background-image: radial-gradient(aliceblue, beige 10%, aliceblue 80%);
+}
+
+body::after{
+    content: "";
+    background-image: url("./assets/bankOfAvion.png") ;
+    
+    background-repeat: no-repeat;
+    background-position: center;
+    opacity:0.5;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    position: fixed;
+    z-index: -1000;
+}
