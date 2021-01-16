@@ -14,7 +14,7 @@ let Users = {
 }
 
 //Users Object Constructor
-function User(user, balance) {
+function User(user, balance = 0) {
     this.user = user;
     this.balance = balance;
 }
@@ -25,14 +25,50 @@ function AddInitialUser(user, balance) {
     InitUserArr.push(initUser);
 }
 
-//User Adding/Registering function
-function AddUser(user, balance) {
-    let userObj = new User(user, balance);
-    let UserObjToStr = JSON.stringify(userObj);
-    let strToObj = JSON.parse(UserObjToStr);
-    UsersArr.push(strToObj);
+//Check if user's name being added has a number
+function validateName(str) {
+    var re = /^[A-Za-z]+$/;
+    if (re.test(str)) {
+        return true;
+    }
+    else {
+        return false;
+    }
 }
 
+
+//User Adding/Registering function with conditions
+function AddUser(user, balance = 0) {
+    let names = ScanUsers();
+
+    if (names.includes(user.toLowerCase()) || names.includes(user.capitalize())) {
+        console.log("User Already Exists");
+    }
+    else {
+        if (validateName(user) === true && balance >= 0) {
+            let userObj = new User(user, balance);
+            let UserObjToStr = JSON.stringify(userObj);
+            let strToObj = JSON.parse(UserObjToStr);
+            UsersArr.push(strToObj);
+        }
+        else {
+            console.log("A User's name can't contain a number and initial balance can't be negative !");
+        }
+    }
+
+}
+
+//contains string.uppercase, lowercase, capitalize
+//Function for checking names of users
+function ScanUsers() {
+    let namesArr = [];
+
+    for (i = 0; i < UsersArr.length; i++) {
+        namesArr.push(UsersArr[i].user)
+    }
+
+    return namesArr;
+}
 
 //function for Loading 5 initial data into localStorage
 function loadInitialData() {
@@ -49,11 +85,18 @@ function loadInitialData() {
         UsersArr.push(JSON.parse(initialUser));
     }
 
-    alert("Loading Initial Data into Local Storage and Registered Users Complete !");
+    alert("Loading 5 Initial Data into Local Storage and Registered Users Complete !");
 }
 
+String.prototype.capitalize = function () {
+    return this.charAt(0).toUpperCase() + this.slice(1);
+}
+
+
+//DOM click Events
+
 //On-click Events template
-/* InitialDataBtn.addEventListener(
+/* <buttonName>.addEventListener(
     'click',
     function () {
     }
