@@ -24,3 +24,9 @@ body::after{
     position: fixed;
     z-index: -1000;
 }
+
+#loadDataBtn{
+    display: block; 
+    margin: 0 auto;
+    font-size: 20px;
+}
