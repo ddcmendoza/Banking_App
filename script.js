@@ -14,21 +14,21 @@ let Users = {
 }
 
 //Users Object Constructor
-function User(name, balance) {
-    this.name = name;
+function User(user, balance) {
+    this.user = user;
     this.balance = balance;
 }
 
 //Initial Users Adding/Registering function
-function AddInitialUser(name, balance) {
-    let initUser = new User(name, balance);
+function AddInitialUser(user, balance) {
+    let initUser = new User(user, balance);
     InitUserArr.push(initUser);
 }
 
 //User Adding/Registering function
-function AddUser(name, balance) {
-    let user = new User(name, balance);
-    let UserObjToStr = JSON.stringify(user);
+function AddUser(user, balance) {
+    let userObj = new User(user, balance);
+    let UserObjToStr = JSON.stringify(userObj);
     let strToObj = JSON.parse(UserObjToStr);
     UsersArr.push(strToObj);
 }
@@ -65,4 +65,3 @@ InitialDataBtn.addEventListener(
         loadInitialData();
     }
 );
-
