@@ -1,6 +1,7 @@
 /* Test JS
 alert("Start pushing"); */
 
+
 // DOM Variables
 let InitialDataBtn = document.querySelector("#loadDataBtn");
 
@@ -168,7 +169,7 @@ function get_balance(user) {
 }
 
 function list_users() {
-    console.log("Registered Users \n")
+    console.log("Registered Users \n");
 
     if (UsersArr.length != 0) {
         /*  for (i = 0; i < UsersArr.length; i++) {
@@ -181,7 +182,7 @@ function list_users() {
         return result;
     }
     else {
-        return "There are no users registered currently..."
+        return ("There are no users registered currently...");
     }
 
 }
@@ -194,6 +195,7 @@ function list_users() {
     function () {
     }
 ); */
+
 if(ADD !== null){
     ADD.addEventListener(
         'click',
@@ -204,7 +206,7 @@ if(ADD !== null){
                 balance = prompt("Please enter a valid number");
             }
             balance = (balance === "")? 0:parseInt(balance);
-            res = addUser(name,balance);
+            res = create_user(name,balance);
             if (res === 0){
                 alert("Added User Successfully!");
             }
@@ -226,6 +228,4 @@ if(InitialDataBtn !== null){
             loadInitialData();
         }
     );
-    
 }
-
