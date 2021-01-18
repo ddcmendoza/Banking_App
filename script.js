@@ -45,8 +45,20 @@ function AddInitialUser(user, balance) {
 
 //Check if user's name being added has a number
 function validateName(str) {
-    var re = /^[A-Za-z]+$/;
-    if (re.test(str)) {
+    var firstChar = str[0];
+    if (firstChar >= '0' && firstChar <= '9') {
+        return false;
+    } else {
+        return true;
+    }
+}
+
+//Check if user's name being added exists.
+function checkSimilarExists(user) {
+    let names = ScanUsers();
+
+    if (names.includes(user.toLowerCase()) || names.includes(user.capitalize())) {
+        // return names.indexOf(user.capitalize());
         return true;
     }
     else {
@@ -75,6 +87,38 @@ function addUser(user, balance = 0) {
         else {
             console.log("A User's name can't contain a number and initial balance can't be negative !");
             return "invalid";
+//Get index of entered user name
+function getIndexOfEnteredName(user) {
+    let names = ScanUsers();
+
+    if (names.includes(user.toLowerCase()) || names.includes(user.capitalize())) {
+        return names.indexOf(user.capitalize());
+    }
+    else {
+        return false;
+    }
+}
+
+//User Adding/Registering function with conditions
+function create_user(user, balance = 0) {
+    if (checkSimilarExists(user) === true) {
+        return "User Already Exists";
+    }
+    else {
+        if (validateName(user) === true) {
+            if (balance >= 0) {
+                let capName = user.capitalize();
+                let userObj = new User(capName, balance);
+                let UserObjToStr = JSON.stringify(userObj);
+                let strToObj = JSON.parse(UserObjToStr);
+                UsersArr.push(strToObj);
+            }
+            else {
+                return "Initial balance can't be negative, Please Leave it blank to initialize a balance of 0 !";
+            }
+        }
+        else {
+            return "Sorry, a User's name can't contain a number !";
         }
     }
 
@@ -114,6 +158,33 @@ String.prototype.capitalize = function () {
     return this.charAt(0).toUpperCase() + this.slice(1);
 }
 
+function get_balance(user) {
+    if (checkSimilarExists(user) === true) {
+        return "User: " + user.capitalize() + "\nBalance: ₱" + UsersArr[getIndexOfEnteredName(user)].balance;
+    }
+    else {
+        return "This User Does not exist..";
+    }
+}
+
+function list_users() {
+    console.log("Registered Users \n")
+
+    if (UsersArr.length != 0) {
+        /*  for (i = 0; i < UsersArr.length; i++) {
+             return "User: '" + UsersArr[i].user + "'  Balance: " + UsersArr[i].balance;
+         } */
+        let result = '';
+        for (let i in UsersArr) {
+            result += "User: " + UsersArr[i].user + "  Balance:  ₱" + UsersArr[i].balance + "\n";
+        }
+        return result;
+    }
+    else {
+        return "There are no users registered currently..."
+    }
+
+}
 
 //DOM click Events
 
