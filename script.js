@@ -23,9 +23,18 @@ let Users = {
 }
 
 //Users Object Constructor
-function User(user, balance = 0) {
-    this.user = user;
-    this.balance = balance;
+class User{
+    constructor(user, balance = 0, obj = null){
+        if(obj === null){
+            this.user = user;
+            this.balance = balance;
+        }
+        else{
+            this.user = obj.user;
+            this.balance = obj.balance;
+        }
+
+    }
 }
 
 //Initial Users Adding/Registering function
@@ -59,6 +68,7 @@ function addUser(user, balance = 0) {
             let userObj = new User(user, balance);
             let UserObjToStr = JSON.stringify(userObj);
             let strToObj = JSON.parse(UserObjToStr);
+            //UsersArr.push(new User('',1,strToObj)); or alternatively we can use Object.assign(new User, {obj}); so we can set them as User Objects instead of generic objects
             UsersArr.push(strToObj);
             return 0;
         }
