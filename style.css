@@ -61,7 +61,7 @@ div#userbox{
     opacity: 85%;
 }
 
-div.add-container{
+div.add-container, div.transaction-container{
     margin-top: 1em;
     padding: .5em;
     background-color: aliceblue;

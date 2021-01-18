@@ -6,15 +6,17 @@ const ADDS = document.getElementById('batch-add');
 const ADDCONTAINER = document.getElementsByClassName('add-container');
 const ADDSCONTAINER = document.getElementsByClassName('adds-container')[0];
 
+const NUMS = ['0','1','2','3','4','5','6','7','8','9'];
 let users = [];
 
 for(let i = 0; i < window.localStorage.length; i++){
     let obj = JSON.parse(localStorage[window.localStorage.key(i)]);
     users.push(obj.user);
 }
+console.log(users); 
 
 String.prototype.capitalize = function () {
-    return this.charAt(0).toUpperCase() + this.slice(1);
+    return this.charAt(0).toUpperCase() + this.slice(1).toLowerCase();
 }
 
 function isIn(name, names){
@@ -38,14 +40,19 @@ ADD.addEventListener(
             // insert code for pushing to local storage
             let names = document.getElementsByClassName('name');
             let balances = document.getElementsByClassName('balance');
-            let user = names[0].value;
-            if (user === '' || isIn(user,users)){
+            let user = names[0].value.capitalize();
+
+            if (user === '' || isIn(user,users) || isIn(user[0],NUMS) ){
+                alert("Invalid Name");
                 location.reload();
+                return "Invalid Name";
             }
+
             let balance = (balances[0].value === "")? 0:parseFloat(balances[0].value);
             if (balance < 0){
                 alert("Initial balance must be 0 or positive!");
                 location.reload();
+                return "Invalid Balance";
             }
             let obj = {
                 "user": user,
@@ -97,8 +104,8 @@ ADDS.addEventListener(
                 let balances = document.getElementsByClassName('balance');
                 // insert code for pushing to local storage
                 for(let i = 0; i < names.length; i++){
-                    let user = names[i].value;
-                    if (user === '' || isIn(user,users)){
+                    let user = names[i].value.capitalize();
+                    if (user === '' || isIn(user,users) || isIn(user[0],NUMS)){
                         continue;
                     }
                     let balance = (balances[i].value === "")? 0:parseFloat(balances[i].value);
