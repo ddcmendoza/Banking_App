@@ -4,7 +4,6 @@ alert("Start pushing"); */
 // DOM Variables
 let InitialDataBtn = document.querySelector("#loadDataBtn");
 
-
 const ADD = document.getElementById('add');
 const DEPOSIT = document.getElementById('deposit');
 const WITHDRAW = document.getElementById('withdraw');
@@ -12,6 +11,7 @@ const WITHDRAW = document.getElementById('withdraw');
 const ADDS = document.getElementById('batch-add');
 const DEPOSITS = document.getElementById('batch-deposit');
 const WITHDRAWS = document.getElementById('batch-withdraw');
+
 
 //Initial and Registered Users Arrays
 let InitUserArr = [];
@@ -123,34 +123,38 @@ String.prototype.capitalize = function () {
     function () {
     }
 ); */
+if(ADD !== null){
+    ADD.addEventListener(
+        'click',
+        function () {
+            let name = prompt("Name of Account:");
+            let balance = prompt("Initial Balance:");
+            while(isNaN(balance) && balance !== ""){
+                balance = prompt("Please enter a valid number");
+            }
+            balance = (balance === "")? 0:parseInt(balance);
+            res = addUser(name,balance);
+            if (res === 0){
+                alert("Added User Successfully!");
+            }
+            else if(res === "exist")
+            {
+                alert("User already exists!");
+            }
+            else if(res === "invalid"){
+                alert("A User's name can't contain a number and initial balance can't be negative !");
+            }
+        }
+    );
+}
 
-ADD.addEventListener(
-    'click',
-    function () {
-        let name = prompt("Name of Account:");
-        let balance = prompt("Initial Balance:");
-        while(isNaN(balance) && balance !== ""){
-            balance = prompt("Please enter a valid number");
+if(InitialDataBtn !== null){
+    InitialDataBtn.addEventListener(
+        'click',
+        function () {
+            loadInitialData();
         }
-        balance = (balance === "")? 0:parseInt(balance);
-        res = addUser(name,balance);
-        if (res === 0){
-            alert("Added User Successfully!");
-        }
-        else if(res === "exist")
-        {
-            alert("User already exists!");
-        }
-        else if(res === "invalid"){
-            alert("A User's name can't contain a number and initial balance can't be negative !");
-        }
-    }
+    );
     
-)
+}
 
-InitialDataBtn.addEventListener(
-    'click',
-    function () {
-        loadInitialData();
-    }
-);
