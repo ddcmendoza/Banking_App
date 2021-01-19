@@ -10,6 +10,7 @@ for(let i = 0; i < window.localStorage.length; i++){
     div.appendChild(h2);
     div.appendChild(p);
     div.id = "userbox";
+    div.classList.add("user" + i);
     USERCONTAINER.appendChild(div);
 }
 
