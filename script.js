@@ -3,6 +3,7 @@ alert("Start pushing"); */
 // DOM Variables
 let InitialDataBtn = document.querySelector("#loadDataBtn");
 let clearLocalBtn = document.querySelector("#clearLocal");
+let hoverHere = document.querySelector("#hover-here");
 
 
 //Initial and Registered Users Arrays
@@ -33,11 +34,27 @@ if (InitialDataBtn !== null) {
     );
 }
 
+if (hoverHere !== null) {
+    hoverHere.addEventListener(
+        'mouseover',
+        function () {
+            InitialDataBtn.style.display = 'block';
+            clearLocalBtn.style.display = 'block';
+            setTimeout(function() {
+                InitialDataBtn.style.display = 'none';
+            clearLocalBtn.style.display = 'none';
+              }, 1000);
+        }
+    ,false);
+}
+
+
 if (clearLocalBtn !== null) {
     clearLocalBtn.addEventListener(
         'click',
         function () {
             window.localStorage.clear();
+            window.localStorage.setItem('history',JSON.stringify({'transactions':[]}));
             alert("Local Storage cleared!");
         }
     );

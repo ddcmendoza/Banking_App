@@ -1,4 +1,9 @@
+/*
+TO DO:
+Repair Implementation so history will not be display here or will not be accounted for.
+n => n-1 for key
 
+*/
 
 const ADD = document.getElementById('add');
 const ADDS = document.getElementById('batch-add');

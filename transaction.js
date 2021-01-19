@@ -1,3 +1,21 @@
+/*
+TO DO: Transaction History
+    Implementation similar to Errors
+    Storage to localstorage will be in the form of an obj=
+    history = {
+        "transactions": ["Withdraw Dave 500","Deposit Sam 250"]
+    };
+    ^ Example
+    Additional TO DO: check user list implementation, catch keys that are not for users (i.e. transactions)
+
+    Case: Successful transaction
+    1. Fetch obj = localStorage("history") => parse()
+    2. obj.transactions.push("{Transaction type} {Username} {amount} ({receiver})")
+    3. obj = JSON.stringify(obj);
+    4. setItem("history", obj)
+*/
+
+
 const BALANCE = document.getElementById('balance');
 const DEPOSIT = document.getElementById('deposit');
 const WITHDRAW = document.getElementById('withdraw');

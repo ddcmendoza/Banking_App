@@ -1,5 +1,13 @@
+/*
+TO DO:
+Repair Implementation so history will not be display here
+
+*/
+
+
 //div container for users
 const USERCONTAINER = document.getElementsByClassName("user-container")[0];
+
 
 
 //Create child div containers for every item in the local storage, append to parent
@@ -17,4 +25,4 @@ for (let i = 0; i < window.localStorage.length; i++) {
     USERCONTAINER.appendChild(div);
 }
 
-// Add on click values? transactions maybe?
+// Add on click values? notes.
