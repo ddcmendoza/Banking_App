@@ -22,7 +22,7 @@ let Users = {
     }
 ); */
 
-if(InitialDataBtn !== null){
+if (InitialDataBtn !== null) {
     InitialDataBtn.addEventListener(
         'click',
         function () {
@@ -33,13 +33,13 @@ if(InitialDataBtn !== null){
 
 
 //Users Object Constructor
-class User{
-    constructor(user, balance = 0, obj = null){
-        if(obj === null){
+class User {
+    constructor(user, balance = 0, obj = null) {
+        if (obj === null) {
             this.user = user;
             this.balance = balance;
         }
-        else{
+        else {
             this.user = obj.user;
             this.balance = obj.balance;
         }
@@ -141,7 +141,7 @@ function loadInitialData() {
         UsersArr.push(JSON.parse(initialUser));
     }
 
-    alert("Loading 5 Initial Data into Local Storage and Registered Users Complete !");
+    alert("Registering 5 Initial Users into Local Storage Complete !");
 }
 
 String.prototype.capitalize = function () {
