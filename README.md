@@ -39,3 +39,4 @@ January 19 (master)
 January 20 (master)
 * Added currency formatter
 * Initial history log implementation
+* Initial notes implementation for user-list
