@@ -25,27 +25,25 @@ body::after{
     z-index: -1000;
 }
 
-#loadDataBtn{
-    display: block; 
-    margin: 0 auto;
-    font-size: 20px;
-}
 div.navbar{
     margin-bottom: 1em;
     background-color: aliceblue;
 }
 span{
-    margin-right: 1.5em;
+    margin-right: .25em;
     box-shadow: 1px 1px .5px dimgray;
 }
 span:hover{
     color: white;
     background-color: black;
+    box-shadow: 2px 2px 1px dimgray;
+    z-index: 100;
 }
+
 a{
     color: black;
     text-decoration: none;
-    padding: .5em;
+    padding: .25em;
 }
 a:hover{
     color:white;
@@ -54,11 +52,24 @@ a:hover{
 div#userbox{
     border: 1px solid black;
     border-radius: 1em;
-    margin: .5em;
-    padding: .25em;
+    margin: .15em;
+    padding: .15em;
     box-shadow: 2px 2px 1px dimgray;
     background-color: aliceblue;
     opacity: 85%;
+}
+
+div#userbox:hover{
+    box-shadow: 4px 4px 2px dimgray;
+    background-color: black;
+    color:white;
+}
+
+div#userbox > h2{
+    margin: .25em;
+}
+div#userbox>p{
+    margin: .5em;
 }
 
 div.add-container, div.transaction-container{
@@ -77,6 +88,70 @@ div#submitAllContainer{
     margin-bottom: 1em;
 }
 
+div.body-wrapper{
+    background-color: aliceblue;
+    opacity: 85%;
+}
+
+div.user-container{
+    display:grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+
+div.singleTransaction{
+    margin-bottom: .5em;
+}
+
+button{
+    padding: .5em;
+    margin-right: .5em;
+    box-shadow: 2px 2px 1px aliceblue;
+    font-size: 20px;
+    z-index: 1;
+}
+button:hover{
+    box-shadow: 4px 4px 2px dimgray;
+    z-index: 100;
+}
+@media only screen and (max-width: 900px){
+    div.user-container{
+        display:grid;
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+}
+
+@media only screen and (max-width: 600px){
+    div.user-container{
+        display:grid;
+        grid-template-columns: 1fr 1fr;
+    }
+}
+@media only screen and (max-width: 360px){
+    div.user-container{
+        display:block;
+    }
+}
+
+
 form{
     display: inline;
+}
+
+div.dev-bar{
+    position:absolute;
+    bottom:0;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 -5px 0 black;
+}
+
+div.button-container{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+#loadDataBtn, #clearLocal{
+    display: block; 
+    margin: 0 1em;
+    font-size: 20px;
 }

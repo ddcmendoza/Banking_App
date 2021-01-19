@@ -2,6 +2,8 @@
 alert("Start pushing"); */
 // DOM Variables
 let InitialDataBtn = document.querySelector("#loadDataBtn");
+let clearLocalBtn = document.querySelector("#clearLocal");
+
 
 //Initial and Registered Users Arrays
 let InitUserArr = [];
@@ -31,6 +33,15 @@ if (InitialDataBtn !== null) {
     );
 }
 
+if (clearLocalBtn !== null) {
+    clearLocalBtn.addEventListener(
+        'click',
+        function () {
+            window.localStorage.clear();
+            alert("Local Storage cleared!");
+        }
+    );
+}
 
 //Users Object Constructor
 class User {

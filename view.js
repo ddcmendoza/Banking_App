@@ -17,3 +17,4 @@ for (let i = 0; i < window.localStorage.length; i++) {
     USERCONTAINER.appendChild(div);
 }
 
+// Add on click values? transactions maybe?
