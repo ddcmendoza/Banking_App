@@ -18,9 +18,17 @@ January 18 (Sam-Branch)
 * converted "console.log" to "return" for most functions.
 * renamed some functions related to Avion slide.
 
+January 19 (master)
+* Added Withdraw, Deposit, Send functionality (DOM included)
+* Added batch Withdraws, batch Deposits, batch Sends functionality (DOM included)
+* Edited capitalize(), to enforce lowercase on non-first characters
+
 January 19 (Sam-Branch)
 * Added balance button to transactions page.
 * fixed some minor bugs ex. typing a negative or 0 for multiples and amounts.
 * Made some prompts more specific.
 * Added errors listing for multiples. 
 
+January 19 (master)
+* Minor page responsiveness update for user.html
+* Added Clear local storage button, and a dedicated dev bar in index.html
