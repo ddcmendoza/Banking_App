@@ -124,7 +124,7 @@ ADDS.addEventListener(
                 let names = document.getElementsByClassName('name');
                 let balances = document.getElementsByClassName('balance');
                 let errors = "Errors";
-                // insert code for pushing to local storage
+                // code for pushing to local storage
                 for (let i = 0; i < names.length; i++) {
 
                     let user = names[i].value.capitalize();

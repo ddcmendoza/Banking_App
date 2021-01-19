@@ -32,3 +32,4 @@ January 19 (Sam-Branch)
 January 19 (master)
 * Minor page responsiveness update for user.html
 * Added Clear local storage button, and a dedicated dev bar in index.html
+* Added comments on transaction.js

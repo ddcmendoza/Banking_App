@@ -22,6 +22,8 @@ for (let i = 0; i < window.localStorage.length; i++) {
 }
 console.log(users);
 
+
+// function for hiding buttons, used when a button is clicked
 function hideButtons() {
     BALANCE.style.display = 'none';
     DEPOSIT.style.display = 'none';
@@ -32,6 +34,7 @@ function hideButtons() {
     SENDS.style.display = 'none';
 }
 
+// function to check whether an element (user) exists inside an array (users)
 function isIn(user, users) {
     for (let i = 0; i < users.length; i++) {
         if (user.capitalize() === users[i].capitalize()) {
@@ -74,28 +77,37 @@ BALANCE.addEventListener('click',
 
             });
 
-    })
+    });
 
+// Deposit button functionality
 DEPOSIT.addEventListener('click',
     () => {
         TRANSACTIONCONTAINER[0].style.display = 'inherit';
         hideButtons();
         TRANSACTIONLABEL[0].innerHTML = "Deposit Amount: Php";
+
+        // hide receiver name and label
         document.getElementsByClassName('rec-name')[0].style.display = 'none';
         document.getElementsByClassName('rec-name-label')[0].style.display = 'none';
-
+        // hide balance and label
         document.getElementsByClassName('balance')[0].style.display = 'none';
         document.getElementsByClassName('balance-label')[0].style.display = 'none';
+        // submit button functionality
         let submit = TRANSACTIONCONTAINER[0].lastElementChild;
         submit.addEventListener('click',
             () => {
+                // fetch user and amount
                 let user = document.getElementsByClassName('name')[0].value;
                 let amount = parseFloat(document.getElementsByClassName('amount')[0].value);
+
+                // check if valid amount
                 if (isNaN(amount) || amount < 0) {
                     alert("Invalid Deposit Amount!");
                     location.reload();
                     return;
                 }
+
+                // check if user exists already
                 for (let i = 0; i < window.localStorage.length; i++) {
                     let obj = JSON.parse(localStorage[i])
                     if (user.toUpperCase() === obj.user.toUpperCase()) {
@@ -107,35 +119,42 @@ DEPOSIT.addEventListener('click',
                         return;
                     }
                 }
+
                 alert("Invalid Account Name and/or User Doesn't Exist");
                 location.reload();
             });
 
-    })
+    });
 
+// batch deposit functionality
 DEPOSITS.addEventListener('click',
     () => {
-
+        // hide balance and label
         document.getElementsByClassName('balance')[0].style.display = 'none';
         document.getElementsByClassName('balance-label')[0].style.display = 'none';
+
+        // number of transactions
         let num = prompt("Number of deposit transactions:");
         TRANSACTIONLABEL[0].innerHTML = "Deposit Amount: Php";
 
-
+        // check if num is valid number
         while (num <= 0 || isNaN(parseInt(num))) {
-            num = prompt("Must be a number and greater than 0");
+            num = parseInt(prompt("Must be a number and greater than 0"));
         }
 
+        // copies number of transaction
         for (let i = 0; i < num - 1; i++) {
             let cln = TRANSACTIONCONTAINER[0].cloneNode(true);
             TRANSACTIONSCONTAINER[0].appendChild(cln);
         }
+
+        // hides receiver name and label
         for (let i = 0; i < num; i++) {
             TRANSACTIONCONTAINER[i].style.display = 'inherit';
             document.getElementsByClassName('rec-name')[i].style.display = 'none';
             document.getElementsByClassName('rec-name-label')[i].style.display = 'none';
-
         }
+        // hide all submit buttons to make a submit all button
         let submit = document.getElementsByClassName('transact');
         for (let i = 0; i < submit.length; i++) {
             submit[i].style.display = 'none';
@@ -150,9 +169,12 @@ DEPOSITS.addEventListener('click',
         hideButtons();
         submitAll.addEventListener('click',
             () => {
+                // fetch all container for names and amounts
                 let names = document.getElementsByClassName('name');
                 let amounts = document.getElementsByClassName('amount');
                 let errors = "Errors";
+
+                // loops through all containers
                 for (let i = 0; i < names.length; i++) {
                     let user = names[i].value;
                     let amount = (amounts[i].value === "") ? 0 : parseFloat(amounts[i].value);
@@ -165,7 +187,7 @@ DEPOSITS.addEventListener('click',
                         errors += "\n Deposit for '" + user + "' : User Invalid Name and/or User Doesn't Exist...";
                         continue;
                     }
-
+                    // this part will be the only different code block on withdraw and send => can be refactored to a single function
                     for (let j = 0; j < window.localStorage.length; j++) {
                         let obj = JSON.parse(localStorage[j]);
                         if (user.toUpperCase() === obj.user.toUpperCase()) {
@@ -183,7 +205,7 @@ DEPOSITS.addEventListener('click',
 
     });
 
-
+// withdraw and send follows the same pattern as deposit with different functionality on the submit buttons, can be refactor later to shorten code
 
 WITHDRAW.addEventListener('click',
     () => {
