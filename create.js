@@ -2,7 +2,7 @@
 TO DO:
 Repair Implementation so history will not be display here or will not be accounted for.
 n => n-1 for key
-
+[done]
 */
 
 const ADD = document.getElementById('add');
@@ -79,7 +79,7 @@ ADD.addEventListener(
                 }
 
                 obj = JSON.stringify(obj);
-                let n = window.localStorage.length;
+                let n = window.localStorage.length-1;
                 localStorage.setItem(n, obj);
 
                 location.reload();
@@ -152,7 +152,7 @@ ADDS.addEventListener(
                         "balance": balance
                     }
                     obj = JSON.stringify(obj);
-                    let n = window.localStorage.length;
+                    let n = window.localStorage.length-1;
                     localStorage.setItem(n, obj);
 
                 }
