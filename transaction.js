@@ -141,7 +141,7 @@ DEPOSIT.addEventListener('click',
                 }
 
                 // check if user exists already
-                for (let i = 0; i < window.localStorage.length; i++) {
+                for (let i = 0; i < window.localStorage.length - 1; i++) {
                     let obj = JSON.parse(localStorage[i])
                     if (user.toUpperCase() === obj.user.toUpperCase()) {
                         obj.balance = obj.balance + amount;
@@ -221,7 +221,7 @@ DEPOSITS.addEventListener('click',
                         continue;
                     }
                     // this part will be the only different code block on withdraw and send => can be refactored to a single function
-                    for (let j = 0; j < window.localStorage.length; j++) {
+                    for (let j = 0; j < window.localStorage.length - 1; j++) {
                         let obj = JSON.parse(localStorage[j]);
                         if (user.toUpperCase() === obj.user.toUpperCase()) {
                             obj.balance = obj.balance + amount;
@@ -232,7 +232,7 @@ DEPOSITS.addEventListener('click',
                     }
 
                 }
-                alert(errors);
+                if(errors !== "Errors") alert(errors);
                 location.reload();
             });
 
@@ -260,7 +260,7 @@ WITHDRAW.addEventListener('click',
                     location.reload();
                     return;
                 }
-                for (let i = 0; i < window.localStorage.length; i++) {
+                for (let i = 0; i < window.localStorage.length - 1; i++) {
                     let obj = JSON.parse(localStorage[i])
                     if (user.toUpperCase() === obj.user.toUpperCase()) {
                         obj.balance = obj.balance - amount;
@@ -329,20 +329,20 @@ WITHDRAWS.addEventListener('click',
                         continue;
                     }
 
-                    for (let j = 0; j < window.localStorage.length; j++) {
+                    for (let j = 0; j < window.localStorage.length - 1; j++) {
                         let obj = JSON.parse(localStorage[j]);
                         if (user.toUpperCase() === obj.user.toUpperCase()) {
                             obj.balance = obj.balance - amount;
                             if (obj.balance < 0) {
                                 errors += "\n Withdrawal for '" + user + "' : Insufficient Funds...";
-                                break;
+                                continue;
                             }
                             obj = JSON.stringify(obj);
                             localStorage.setItem(j, obj);
                         }
                     }
                 }
-                alert(errors);
+                if(errors !== "Errors") alert(errors);
                 location.reload();
             });
     });
@@ -367,11 +367,11 @@ SEND.addEventListener('click',
                     location.reload();
                     return;
                 }
-                for (let i = 0; i < window.localStorage.length; i++) {
+                for (let i = 0; i < window.localStorage.length - 1; i++) {
                     let obj = JSON.parse(localStorage[i])
                     if (user.toUpperCase() === obj.user.toUpperCase()) {
                         if (obj.balance >= amount) {
-                            for (let j = 0; j < window.localStorage.length; j++) {
+                            for (let j = 0; j < window.localStorage.length - 1; j++) {
                                 let receiverObj = JSON.parse(localStorage[j]);
                                 if (receiver.toUpperCase() === receiverObj.user.toUpperCase()) {
                                     obj.balance = obj.balance - amount;
@@ -456,11 +456,11 @@ SENDS.addEventListener('click',
                         errors += "\n Sending for '" + user + "' to '" + receiver + "' : User Invalid Name and/or Sender Doesn't Exist...";
                         continue;
                     }
-                    for (let j = 0; j < window.localStorage.length; j++) {
+                    for (let j = 0; j < window.localStorage.length - 1; j++) {
                         let obj = JSON.parse(localStorage[j]);
                         if (user.toUpperCase() === obj.user.toUpperCase()) {
                             if (obj.balance >= amount) {
-                                for (let k = 0; k < window.localStorage.length; k++) {
+                                for (let k = 0; k < window.localStorage.length - 1; k++) {
                                     let receiverObj = JSON.parse(localStorage[k]);
                                     if (receiver.toUpperCase() === receiverObj.user.toUpperCase()) {
                                         obj.balance = obj.balance - amount;
@@ -479,7 +479,7 @@ SENDS.addEventListener('click',
                         }
                     }
                 }
-                alert(errors);
+                if(errors !== "Errors") alert(errors);
                 location.reload();
             });
     });
