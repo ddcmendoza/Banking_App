@@ -174,3 +174,12 @@ div.worldnews>h4, div.businessnews>h4{
     text-decoration: underline;
     
 }
+
+table{
+    margin-top: 2em;
+    width:85%;
+    border: 1px solid dimgray;
+}
+th{
+    border: 1px solid dimgray;
+}

@@ -13,6 +13,16 @@ TO DO: Transaction History
     2. obj.transactions.push("{Transaction type} {Username} {amount} ({receiver})")
     3. obj = JSON.stringify(obj);
     4. setItem("history", obj)
+
+    for displaying:
+    0. fetch obj = localStorage('history') => parse(), loop through obj.transactions
+    1. for each ith iteration, items = obj.transactions[i].split(" ")
+    2. tr = createElement("tr")
+    3. account = creatElement("th") => innerHTML will be items[1] => append to tr
+    4. type = createElement("th") => innerHTML will be items[0] => append to tr
+    5. if type is send, receiver = createElement("th") => innerHTML will be items[3], otherwise " " => append to tr
+    6. amount = createElement("th") => innerHTML will be "Php " + parseFloat(items[2]) => append to tr
+    7. append tr to TABLECONTAINER
 */
 
 
@@ -28,7 +38,12 @@ const SENDS = document.getElementById('batch-send');
 const TRANSACTIONCONTAINER = document.getElementsByClassName('transaction-container');
 const TRANSACTIONSCONTAINER = document.getElementsByClassName('transactions-container');
 
+// for history log
+const TABLECONTAINER = document.getElementsByClassName('transaction-table')[0];
+
+
 const TRANSACTIONLABEL = document.getElementsByClassName('transactionlabel');
+
 console.log(localStorage);
 const NUMS = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
 
