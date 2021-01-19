@@ -3,26 +3,31 @@ TO DO: Transaction History
     Implementation similar to Errors
     Storage to localstorage will be in the form of an obj=
     history = {
-        "transactions": ["Withdraw Dave 500","Deposit Sam 250"]
+        "transactions": ["Time Date Withdraw Dave 500","Time Date Deposit Sam 250"]
     };
     ^ Example
     Additional TO DO: check user list implementation, catch keys that are not for users (i.e. transactions)
 
     Case: Successful transaction
-    1. Fetch obj = localStorage("history") => parse()
+    1. Fetch obj = localStorage["history"] => parse()
     2. obj.transactions.push("{Transaction type} {Username} {amount} ({receiver})")
     3. obj = JSON.stringify(obj);
     4. setItem("history", obj)
 
     for displaying:
-    0. fetch obj = localStorage('history') => parse(), loop through obj.transactions
+    0. fetch obj = localStorage['history'] => parse(), loop through obj.transactions
     1. for each ith iteration, items = obj.transactions[i].split(" ")
     2. tr = createElement("tr")
-    3. account = creatElement("th") => innerHTML will be items[1] => append to tr
-    4. type = createElement("th") => innerHTML will be items[0] => append to tr
-    5. if type is send, receiver = createElement("th") => innerHTML will be items[3], otherwise " " => append to tr
-    6. amount = createElement("th") => innerHTML will be "Php " + parseFloat(items[2]) => append to tr
-    7. append tr to TABLECONTAINER
+    3. date = creatElement("td") => innerHTML will be items[0] => append to tr
+    4. time = creatElement("td") => innerHTML will be items[1] => append to tr
+    5. account = creatElement("td") => innerHTML will be items[3] => append to tr
+    6. type = createElement("td") => innerHTML will be items[2] => append to tr
+    7. if type is send, receiver = createElement("td") => innerHTML will be items[5], otherwise " " => append to tr
+    8. amount = createElement("td") => innerHTML will be "Php " + parseFloat(items[4]) => append to tr
+    9. append tr to TABLECONTAINER
+
+    feature Idea: https://www.w3schools.com/howto/tryit.asp?filename=tryhow_js_filter_table
+    filter on history logs
 */
 
 
@@ -55,6 +60,43 @@ for (let i = 0; i < window.localStorage.length-1; i++) {
 }
 console.log(users);
 
+// currency formatter
+const formatter = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'Php',
+    minimumFractionDigits: 2
+  });
+
+
+// display transaction logs
+function displayLogs(){
+    let obj = JSON.parse(localStorage['history']);
+    for(let i = 0; i < obj.transactions.length; i++){
+        let items = obj.transactions[i].split(' ');
+        let tr = document.createElement('tr');
+        let dt = document.createElement('td');
+        let tm = document.createElement('td');
+        let account = document.createElement('td');
+        let type = document.createElement('td');
+        let receiver = document.createElement('td');
+        let amount = document.createElement('td');
+        date = items[0].split("-")
+        dt.innerHTML = date[0] + "-" + ("0" + date[1]).slice(-2) + "-" + ("0" + date[2]).slice(-2);
+        time = items[1].split(":");
+        tm.innerHTML = ("0" + time[0]).slice(-2) + ":" + ("0" + time[1]).slice(-2) + ":" + ("0" + time[2]).slice(-2);
+        account.innerHTML = items[3];
+        type.innerHTML = items[2];
+        receiver.innerHTML = (type.innerHTML ==='Send')? items[5]: "-";
+        amount.innerHTML = formatter.format((parseFloat(items[4])));
+        tr.appendChild(dt);
+        tr.appendChild(tm);
+        tr.appendChild(account);
+        tr.appendChild(type);
+        tr.appendChild(receiver);
+        tr.appendChild(amount);
+        TABLECONTAINER.appendChild(tr);
+    }
+}
 
 // function for hiding buttons, used when a button is clicked
 function hideButtons() {
@@ -107,7 +149,6 @@ BALANCE.addEventListener('click',
                 }
                 alert("Invalid Account Name and/or User Doesn't Exist");
                 location.reload();
-
             });
 
     });
@@ -147,6 +188,14 @@ DEPOSIT.addEventListener('click',
                         obj.balance = obj.balance + amount;
                         obj = JSON.stringify(obj);
                         localStorage.setItem(i, obj);
+                        
+                        let today = new Date();
+                        let date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+                        let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+                        let hist = JSON.parse(localStorage['history']);
+                        hist.transactions.push(date + " " + time + " " +"Deposit " + user.capitalize() + " " + amount);
+                        hist = JSON.stringify(hist);
+                        localStorage.setItem('history', hist);
                         location.reload();
                         alert("Successful Transaction!");
                         return;
@@ -156,7 +205,6 @@ DEPOSIT.addEventListener('click',
                 alert("Invalid Account Name and/or User Doesn't Exist");
                 location.reload();
             });
-
     });
 
 // batch deposit functionality
@@ -227,6 +275,13 @@ DEPOSITS.addEventListener('click',
                             obj.balance = obj.balance + amount;
                             obj = JSON.stringify(obj);
                             localStorage.setItem(j, obj);
+                            let today = new Date();
+                            let date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+                            let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+                            let hist = JSON.parse(localStorage['history']);
+                            hist.transactions.push(date + " " + time + " " + "Deposit " + user.capitalize() + " " + amount);
+                            hist = JSON.stringify(hist);
+                            localStorage.setItem('history', hist);
                         }
 
                     }
@@ -235,7 +290,6 @@ DEPOSITS.addEventListener('click',
                 if(errors !== "Errors") alert(errors);
                 location.reload();
             });
-
     });
 
 // withdraw and send follows the same pattern as deposit with different functionality on the submit buttons, can be refactor later to shorten code
@@ -256,8 +310,8 @@ WITHDRAW.addEventListener('click',
                 let user = document.getElementsByClassName('name')[0].value;
                 let amount = parseFloat(document.getElementsByClassName('amount')[0].value);
                 if (isNaN(amount) || amount < 0) {
-                    alert("Invalid Withdraw Amount!");
-                    location.reload();
+                    alert("Invalid Withdraw Amount!");;
+                    displayLogs();
                     return;
                 }
                 for (let i = 0; i < window.localStorage.length - 1; i++) {
@@ -271,6 +325,13 @@ WITHDRAW.addEventListener('click',
                         }
                         obj = JSON.stringify(obj);
                         localStorage.setItem(i, obj);
+                        let today = new Date();
+                        let date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+                        let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+                        let hist = JSON.parse(localStorage['history']);
+                        hist.transactions.push(date + " " + time + " " + "Withdraw " + user.capitalize() + " " + amount);
+                        hist = JSON.stringify(hist);
+                        localStorage.setItem('history', hist)
                         alert("Successful Transaction!");
                         location.reload();
                         return;
@@ -339,6 +400,13 @@ WITHDRAWS.addEventListener('click',
                             }
                             obj = JSON.stringify(obj);
                             localStorage.setItem(j, obj);
+                            let today = new Date();
+                            let date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+                            let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+                            let hist = JSON.parse(localStorage['history']);
+                            hist.transactions.push(date + " " + time + " " + "Withdraw " + user.capitalize() + " " + amount);
+                            hist = JSON.stringify(hist);
+                            localStorage.setItem('history', hist)
                         }
                     }
                 }
@@ -380,6 +448,13 @@ SEND.addEventListener('click',
                                     receiverObj = JSON.stringify(receiverObj);
                                     localStorage.setItem(j, receiverObj);
                                     localStorage.setItem(i, obj);
+                                    let today = new Date();
+                                    let date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+                                    let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+                                    let hist = JSON.parse(localStorage['history']);
+                                    hist.transactions.push(date + " " + time + " " + "Send " + user.capitalize() + " " + amount + " " + receiver.capitalize());
+                                    hist = JSON.stringify(hist);
+                                    localStorage.setItem('history', hist)
                                     alert("Successful Transaction!");
                                     location.reload();
                                     return;
@@ -469,6 +544,13 @@ SENDS.addEventListener('click',
                                         receiverObj = JSON.stringify(receiverObj);
                                         localStorage.setItem(k, receiverObj);
                                         localStorage.setItem(j, obj);
+                                        let today = new Date();
+                                        let date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+                                        let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+                                        let hist = JSON.parse(localStorage['history']);
+                                        hist.transactions.push(date + " " + time + " " + "Send " + user.capitalize() + " " + amount + " " + receiver.capitalize());
+                                        hist = JSON.stringify(hist);
+                                        localStorage.setItem('history', hist)
                                     }
                                 }
                             }
@@ -483,3 +565,8 @@ SENDS.addEventListener('click',
                 location.reload();
             });
     });
+
+
+    window.onload = (event) => {
+        displayLogs();
+      };

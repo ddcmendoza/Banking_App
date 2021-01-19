@@ -177,9 +177,11 @@ div.worldnews>h4, div.businessnews>h4{
 
 table{
     margin-top: 2em;
-    width:85%;
+    width: 100%;
     border: 1px solid dimgray;
+    background: aliceblue;
+    opacity: 85%;
 }
-th{
+th,td{
     border: 1px solid dimgray;
 }

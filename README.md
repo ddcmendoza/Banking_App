@@ -35,3 +35,7 @@ January 19 (master)
 * Added comments on transaction.js
 * Added To-do for transaction.js for history feature
 * Edit create.js and view.js to accommodate for history feature
+
+January 20 (master)
+* Added currency formatter
+* Initial history log implementation
