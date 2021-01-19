@@ -57,6 +57,7 @@ div#userbox{
     box-shadow: 2px 2px 1px dimgray;
     background-color: aliceblue;
     opacity: 85%;
+    min-height: 7.5em;
 }
 
 div#userbox:hover{
@@ -184,4 +185,7 @@ table{
 }
 th,td{
     border: 1px solid dimgray;
+}
+textarea, div#userbox>div{
+    margin-left: .5em;
 }
