@@ -352,7 +352,7 @@ SENDS.addEventListener('click',
 
         document.getElementsByClassName('balance')[0].style.display = 'none';
         document.getElementsByClassName('balance-label')[0].style.display = 'none';
-        let num = prompt("Number of Send2 transactions:");
+        let num = prompt("Number of Send transactions:");
 
         while (num <= 0 || isNaN(parseInt(num))) {
             num = prompt("Must be a number and greater than 0");
