@@ -340,7 +340,7 @@ WITHDRAW.addEventListener('click',
                 alert("Invalid Account Name and/or User Doesn't Exist");
                 location.reload();
             });
-    })
+    });
 
 WITHDRAWS.addEventListener('click',
     () => {
@@ -567,6 +567,6 @@ SENDS.addEventListener('click',
     });
 
 
-    window.onload = (event) => {
-        displayLogs();
-      };
+window.onload = (event) => {
+    displayLogs();
+    };
