@@ -168,7 +168,7 @@ function loadInitialData() {
         localStorage.setItem(i, initialUser);
         UsersArr.push(JSON.parse(initialUser));
     }
-
+    window.localStorage.setItem('history',JSON.stringify({'transactions':[]}));
     alert("Registering 5 Initial Users into Local Storage Complete !");
 }
 
