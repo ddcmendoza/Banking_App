@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Transactions</title>
-    <link rel="stylesheet" type="text/css" href="style.css"/>
+    <link rel="stylesheet" type="text/css" href="style.css" />
 
 </head>
+
 <body>
     <div class="navbar">
         <span><a href="index.html" id="home">Home</a></span>
@@ -14,8 +16,9 @@
         <span><a href="create.html" id="create">Create User</a></span>
         <span><a href="transaction.html" id="transactions">Transactions</a></span>
     </div>
-    
+
     <div class="singleTransaction">
+        <button id="balance">Get Balance</button>
         <button id="deposit">Deposit</button>
         <button id="withdraw">Withdraw</button>
         <button id="send">Send</button>
@@ -27,22 +30,25 @@
         <button id="batch-send">Send Multiple</button>
     </div>
     <div class="transactions-container">
-            <div class="transaction-container">
-                <form>
-                    <label for="name">Account Name:</label>
-                    <input type="text" id="name" class="name">
-                    <label for="name" class="rec-name-label">Receiver Name:</label>
-                    <input type="text" id="rec-name" class="rec-name">
-                    <label for="amount" class="transactionlabel">Amount: Php </label>
-                    <input type="number" id="amount" min="0" class="amount">
-                </form>
-                <button class='transact'>Submit</button>
-            </div>
-            
+        <div class="transaction-container">
+            <form>
+                <label for="name">Account Name:</label>
+                <input type="text" id="name" class="name">
+                <label for="name" class="rec-name-label">Receiver Name:</label>
+                <input type="text" id="rec-name" class="rec-name">
+                <label for="balance" class="balance-label">Balance: Php</label>
+                <label id="balance" class="balance">0</label>
+                <label for="amount" class="transactionlabel">Amount: Php </label>
+                <input type="number" id="amount" min="0" class="amount">
+            </form>
+            <button class='transact'>Submit</button>
+        </div>
+
     </div>
-   
+
     <script src="script.js"> </script>
     <script src="transaction.js"> </script>
 
 </body>
+
 </html>
