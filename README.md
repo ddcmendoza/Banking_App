@@ -20,7 +20,7 @@ January 18 (Sam-Branch)
 
 January 19 (Sam-Branch)
 * Added balance button to transactions page.
-* fixed a minor bug of typing a negative or 0 for multiples.
+* fixed some minor bugs ex. typing a negative or 0 for multiples and amounts.
 * Made some prompts more specific.
 * Added errors listing for multiples. 
 
