@@ -570,3 +570,19 @@ SENDS.addEventListener('click',
 window.onload = (event) => {
     displayLogs();
     };
+
+/*
+REFACTOR IDEA for 6 buttons
+make a function called transactionCB(type, isBatch)
+    -type = ["Send","Withdraw","Deposit"]
+    -isBatch = [true, false]
+Essentially copy all the code on the 6 buttons to shorten the overall code
+Use case would be:
+    DEPOSIT.addEventListener('click', transactionCB("Deposit", false));
+    DEPOSITS.addEventListener('click', transactionCB("Deposit", true));
+    WITHDRAW.addEventListener('click', transactionCB("Withdraw", false));
+    WITHDRAWS.addEventListener('click', transactionCB("Withdraw", true));
+    SEND.addEventListener('click', transactionCB("Send", false));
+    SENDS.addEventListener('click', transactionCB("Send", true));
+
+*/
