@@ -156,7 +156,7 @@ ADDS.addEventListener(
                     localStorage.setItem(n, obj);
 
                 }
-                alert(errors);
+                if(errors !== "Errors") alert(errors);
                 location.reload();
             });
 
