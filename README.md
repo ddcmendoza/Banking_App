@@ -18,3 +18,9 @@ January 18 (Sam-Branch)
 * converted "console.log" to "return" for most functions.
 * renamed some functions related to Avion slide.
 
+January 19 (Sam-Branch)
+* Added balance button to transactions page.
+* fixed a minor bug of typing a negative or 0 for multiples.
+* Made some prompts more specific.
+* Added errors listing for multiples. 
+
