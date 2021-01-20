@@ -138,18 +138,29 @@ form{
     display: inline;
 }
 
-div.dev-bar{
+/* div.dev-bar{
     position:static;
     bottom:0;
     width: 100%;
     text-align: center;
-    box-shadow: 0 -5px 0 black;
-}
+} */
 
-div.button-container{
-    display:grid;
-    grid-template-columns: 1fr 1fr;
-}
+/* div.button-container{
+        display: flex;
+        position: absolute;
+        float: right;
+        top: 0;
+        margin-top: 40px;
+        right: 20px;
+        z-index: 10;
+        padding: 10px 10px 10px 10px;
+        color: #ffffff;
+        background-color:  #1d6baf; 
+        font-weight: 700;
+        box-shadow: 0 0 10px rgba(0,0,0,0.5);
+        border-bottom-left-radius: 2px;
+        border-bottom-right-radius: 2px;
+} */
 
 #loadDataBtn, #clearLocal{
     margin: 0 1em;
@@ -188,4 +199,37 @@ th,td{
 }
 textarea, div#userbox>div{
     margin-left: .5em;
+}
+
+div.button-container{
+    display: flex;
+    position: absolute;
+    float: right;
+    top: 0;
+    margin-top: 80px;
+    right: 0;
+    z-index: 10;
+    padding: 10px 10px 10px 10px;
+    color: #ffffff;
+    background-color:  #1d6baf; 
+    font-weight: 700;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    border-bottom-left-radius: 2px;
+    border-bottom-right-radius: 2px;
+}
+#dev-options {
+        display: inline;
+        position: absolute;
+        width: 5.5em;
+        top: 0;
+        margin-top: 0px;
+        right: 0;
+        z-index: 10;
+        padding: 10px 10px 10px 10px;
+        color: #ffffff;
+        background-color:  #0090ff; 
+        font-weight: 700;
+        box-shadow: 0 0 10px rgba(0,0,0,0.5);
+        border-bottom-left-radius: 2px;
+        border-bottom-right-radius: 2px;
 }

@@ -54,7 +54,7 @@ const NUMS = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
 
 let users = [];
 
-for (let i = 0; i < window.localStorage.length-1; i++) {
+for (let i = 0; i < window.localStorage.length - 1; i++) {
     let obj = JSON.parse(localStorage[i]);
     users.push(obj.user);
 }
@@ -65,13 +65,13 @@ const formatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'Php',
     minimumFractionDigits: 2
-  });
+});
 
 
 // display transaction logs
-function displayLogs(){
+function displayLogs() {
     let obj = JSON.parse(localStorage['history']);
-    for(let i = 0; i < obj.transactions.length; i++){
+    for (let i = 0; i < obj.transactions.length; i++) {
         let items = obj.transactions[i].split(' ');
         let tr = document.createElement('tr');
         let dt = document.createElement('td');
@@ -86,7 +86,7 @@ function displayLogs(){
         tm.innerHTML = ("0" + time[0]).slice(-2) + ":" + ("0" + time[1]).slice(-2) + ":" + ("0" + time[2]).slice(-2);
         account.innerHTML = items[3];
         type.innerHTML = items[2];
-        receiver.innerHTML = (type.innerHTML ==='Send')? items[5]: "-";
+        receiver.innerHTML = (type.innerHTML === 'Send') ? items[5] : "-";
         amount.innerHTML = formatter.format((parseFloat(items[4])));
         tr.appendChild(dt);
         tr.appendChild(tm);
@@ -135,18 +135,30 @@ BALANCE.addEventListener('click',
         const balanceText = document.getElementsByClassName('balance')[0];
 
         let submit = TRANSACTIONCONTAINER[0].lastElementChild;
+
         submit.addEventListener('click',
             () => {
+                // fetch user and amount
                 let user = document.getElementsByClassName('name')[0].value;
 
-                for (let i = 0; i < window.localStorage.length; i++) {
+                // check if user exists already
+                for (let i = 0; i < window.localStorage.length - 1; i++) {
                     let obj = JSON.parse(localStorage[i])
                     if (user.toUpperCase() === obj.user.toUpperCase()) {
                         balanceText.innerHTML = obj.balance;
-                        alert("Balance Inquiry Successful!");
+
+                        let today = new Date();
+                        let date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+                        let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+                        let hist = JSON.parse(localStorage['history']);
+                        hist.transactions.unshift(date + " " + time + " " + "Deposit " + user.capitalize() + " " + obj.balance);
+                        hist = JSON.stringify(hist);
+                        localStorage.setItem('history', hist);
+                        alert("Successful Balance Inquiry!");
                         return;
                     }
                 }
+
                 alert("Invalid Account Name and/or User Doesn't Exist");
                 location.reload();
             });
@@ -188,12 +200,12 @@ DEPOSIT.addEventListener('click',
                         obj.balance = obj.balance + amount;
                         obj = JSON.stringify(obj);
                         localStorage.setItem(i, obj);
-                        
+
                         let today = new Date();
-                        let date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+                        let date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
                         let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
                         let hist = JSON.parse(localStorage['history']);
-                        hist.transactions.push(date + " " + time + " " +"Deposit " + user.capitalize() + " " + amount);
+                        hist.transactions.unshift(date + " " + time + " " + "Deposit " + user.capitalize() + " " + amount);
                         hist = JSON.stringify(hist);
                         localStorage.setItem('history', hist);
                         location.reload();
@@ -206,6 +218,10 @@ DEPOSIT.addEventListener('click',
                 location.reload();
             });
     });
+// DEPOSIT.addEventListener(
+//     'click', transactionCB("Deposit", false)
+// );
+
 
 // batch deposit functionality
 DEPOSITS.addEventListener('click',
@@ -276,10 +292,10 @@ DEPOSITS.addEventListener('click',
                             obj = JSON.stringify(obj);
                             localStorage.setItem(j, obj);
                             let today = new Date();
-                            let date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+                            let date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
                             let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
                             let hist = JSON.parse(localStorage['history']);
-                            hist.transactions.push(date + " " + time + " " + "Deposit " + user.capitalize() + " " + amount);
+                            hist.transactions.unshift(date + " " + time + " " + "Deposit " + user.capitalize() + " " + amount);
                             hist = JSON.stringify(hist);
                             localStorage.setItem('history', hist);
                         }
@@ -287,7 +303,7 @@ DEPOSITS.addEventListener('click',
                     }
 
                 }
-                if(errors !== "Errors") alert(errors);
+                if (errors !== "Errors") alert(errors);
                 location.reload();
             });
     });
@@ -326,10 +342,10 @@ WITHDRAW.addEventListener('click',
                         obj = JSON.stringify(obj);
                         localStorage.setItem(i, obj);
                         let today = new Date();
-                        let date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+                        let date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
                         let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
                         let hist = JSON.parse(localStorage['history']);
-                        hist.transactions.push(date + " " + time + " " + "Withdraw " + user.capitalize() + " " + amount);
+                        hist.transactions.unshift(date + " " + time + " " + "Withdraw " + user.capitalize() + " " + amount);
                         hist = JSON.stringify(hist);
                         localStorage.setItem('history', hist)
                         alert("Successful Transaction!");
@@ -347,6 +363,11 @@ WITHDRAWS.addEventListener('click',
 
         document.getElementsByClassName('balance')[0].style.display = 'none';
         document.getElementsByClassName('balance-label')[0].style.display = 'none';
+
+        let submit = document.getElementsByClassName('transact');
+        let submitAllContainer = document.createElement('div');
+        let submitAll = document.createElement('button');
+
         let num = prompt("Number of withdraw transactions:");
         TRANSACTIONLABEL[0].innerHTML = "Withdraw Amount: Php";
         while (num <= 0 || isNaN(parseInt(num))) {
@@ -361,13 +382,13 @@ WITHDRAWS.addEventListener('click',
             document.getElementsByClassName('rec-name')[i].style.display = 'none';
             document.getElementsByClassName('rec-name-label')[i].style.display = 'none';
         }
-        let submit = document.getElementsByClassName('transact');
+
         for (let i = 0; i < submit.length; i++) {
             submit[i].style.display = 'none';
         }
-        let submitAllContainer = document.createElement('div');
+
         submitAllContainer.id = 'submitAllContainer';
-        let submitAll = document.createElement('button');
+
         submitAll.innerHTML = "Submit All";
         submitAll.id = 'submitAll';
         submitAllContainer.appendChild(submitAll);
@@ -401,16 +422,16 @@ WITHDRAWS.addEventListener('click',
                             obj = JSON.stringify(obj);
                             localStorage.setItem(j, obj);
                             let today = new Date();
-                            let date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+                            let date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
                             let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
                             let hist = JSON.parse(localStorage['history']);
-                            hist.transactions.push(date + " " + time + " " + "Withdraw " + user.capitalize() + " " + amount);
+                            hist.transactions.unshift(date + " " + time + " " + "Withdraw " + user.capitalize() + " " + amount);
                             hist = JSON.stringify(hist);
                             localStorage.setItem('history', hist)
                         }
                     }
                 }
-                if(errors !== "Errors") alert(errors);
+                if (errors !== "Errors") alert(errors);
                 location.reload();
             });
     });
@@ -449,10 +470,10 @@ SEND.addEventListener('click',
                                     localStorage.setItem(j, receiverObj);
                                     localStorage.setItem(i, obj);
                                     let today = new Date();
-                                    let date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+                                    let date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
                                     let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
                                     let hist = JSON.parse(localStorage['history']);
-                                    hist.transactions.push(date + " " + time + " " + "Send " + user.capitalize() + " " + amount + " " + receiver.capitalize());
+                                    hist.transactions.unshift(date + " " + time + " " + "Send " + user.capitalize() + " " + amount + " " + receiver.capitalize());
                                     hist = JSON.stringify(hist);
                                     localStorage.setItem('history', hist)
                                     alert("Successful Transaction!");
@@ -545,10 +566,10 @@ SENDS.addEventListener('click',
                                         localStorage.setItem(k, receiverObj);
                                         localStorage.setItem(j, obj);
                                         let today = new Date();
-                                        let date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+                                        let date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
                                         let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
                                         let hist = JSON.parse(localStorage['history']);
-                                        hist.transactions.push(date + " " + time + " " + "Send " + user.capitalize() + " " + amount + " " + receiver.capitalize());
+                                        hist.transactions.unshift(date + " " + time + " " + "Send " + user.capitalize() + " " + amount + " " + receiver.capitalize());
                                         hist = JSON.stringify(hist);
                                         localStorage.setItem('history', hist)
                                     }
@@ -561,7 +582,7 @@ SENDS.addEventListener('click',
                         }
                     }
                 }
-                if(errors !== "Errors") alert(errors);
+                if (errors !== "Errors") alert(errors);
                 location.reload();
             });
     });
@@ -569,7 +590,7 @@ SENDS.addEventListener('click',
 
 window.onload = (event) => {
     displayLogs();
-    };
+};
 
 /*
 REFACTOR IDEA for 6 buttons
@@ -586,3 +607,7 @@ Use case would be:
     SENDS.addEventListener('click', transactionCB("Send", true));
 
 */
+
+
+
+

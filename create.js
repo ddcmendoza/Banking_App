@@ -14,7 +14,7 @@ const ADDSCONTAINER = document.getElementsByClassName('adds-container')[0];
 const NUMS = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
 let users = [];
 
-for (let i = 0; i < window.localStorage.length-1; i++) {
+for (let i = 0; i < window.localStorage.length - 1; i++) {
     let obj = JSON.parse(localStorage[i]);
     users.push(obj.user);
 }
@@ -79,9 +79,16 @@ ADD.addEventListener(
                 }
 
                 obj = JSON.stringify(obj);
-                let n = window.localStorage.length-1;
+                let n = window.localStorage.length - 1;
                 localStorage.setItem(n, obj);
-
+                let today = new Date();
+                let date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+                let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+                let hist = JSON.parse(localStorage['history']);
+                hist.transactions.unshift(date + " " + time + " " + "Registration " + user.capitalize() + " " + balance);
+                hist = JSON.stringify(hist);
+                localStorage.setItem('history', hist);
+                alert("User Added Successfully!")
                 location.reload();
             });
     }
@@ -152,11 +159,17 @@ ADDS.addEventListener(
                         "balance": balance
                     }
                     obj = JSON.stringify(obj);
-                    let n = window.localStorage.length-1;
+                    let n = window.localStorage.length - 1;
                     localStorage.setItem(n, obj);
-
+                    let today = new Date();
+                    let date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+                    let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+                    let hist = JSON.parse(localStorage['history']);
+                    hist.transactions.unshift(date + " " + time + " " + "Registration " + user.capitalize() + " " + balance);
+                    hist = JSON.stringify(hist);
+                    localStorage.setItem('history', hist);
                 }
-                if(errors !== "Errors") alert(errors);
+                if (errors !== "Errors") alert(errors);
                 location.reload();
             });
 

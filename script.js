@@ -3,7 +3,7 @@ alert("Start pushing"); */
 // DOM Variables
 let InitialDataBtn = document.querySelector("#loadDataBtn");
 let clearLocalBtn = document.querySelector("#clearLocal");
-let hoverHere = document.querySelector("#hover-here");
+let hoverHere = document.querySelector("#dev-options");
 
 
 //Initial and Registered Users Arrays
@@ -40,12 +40,12 @@ if (hoverHere !== null) {
         function () {
             InitialDataBtn.style.display = 'block';
             clearLocalBtn.style.display = 'block';
-            setTimeout(function() {
+            setTimeout(function () {
                 InitialDataBtn.style.display = 'none';
-            clearLocalBtn.style.display = 'none';
-              }, 1000);
+                clearLocalBtn.style.display = 'none';
+            }, 2000);
         }
-    ,false);
+        , false);
 }
 
 
@@ -54,7 +54,7 @@ if (clearLocalBtn !== null) {
         'click',
         function () {
             window.localStorage.clear();
-            window.localStorage.setItem('history',JSON.stringify({'transactions':[]}));
+            window.localStorage.setItem('history', JSON.stringify({ 'transactions': [] }));
             alert("Local Storage cleared!");
         }
     );
@@ -168,7 +168,7 @@ function loadInitialData() {
         localStorage.setItem(i, initialUser);
         UsersArr.push(JSON.parse(initialUser));
     }
-    localStorage.setItem('history',JSON.stringify({'transactions':[]}));
+    localStorage.setItem('history', JSON.stringify({ 'transactions': [] }));
     alert("Registering 5 Initial Users into Local Storage Complete !");
 }
 

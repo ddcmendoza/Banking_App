@@ -4,16 +4,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="style.css"/>
+    <link rel="stylesheet" type="text/css" href="style.css" />
     <title>Bank of Avion</title>
 </head>
 
 <body>
+    <div class="dev-bar">
+        <div class="button-container">
+            <Button id="loadDataBtn">Load Initial Data</Button>
+            <Button id="clearLocal">Clear Local Storage</Button>
+        </div>
+    </div>
     <div class="navbar">
         <span><a href="index.html" id="home">Home</a></span>
         <span><a href="user.html" id="view">View Users</a></span>
         <span><a href="create.html" id="create">Create User</a></span>
         <span><a href="transaction.html" id="transactions">Transactions</a></span>
+        <span>
+            <p id="dev-options">Show Developer Options 👨‍💻</p>
+        </span>
     </div>
 
     <div class="body-wrapper">
@@ -21,27 +30,23 @@
         <h2>Bank of Coders</h2>
 
         <p>
-            Welcome employee, this app is designed to make your work easier. 
+            Welcome employee, this app is designed to make your work easier.
         </p>
         <p>
-            With your convenience in mind, we would like to hear from you! Send us your concerns and suggestions at softwaredev@bankofavion.com.
+            With your convenience in mind, we would like to hear from you! Send us your concerns and suggestions at
+            softwaredev@bankofavion.com.
         </p>
     </div>
-    <div class ="newsfeed">
+    <div class="newsfeed">
         <div class="worldnews">
             <h1>FINANCE NEWS</h1>
-            <script src="//rss.bloople.net/?url=https%3A%2F%2Fnews.google.com%2Frss%2Fsearch%3Fq%3Dfinance%26hl%3Den-US%26sort%3Ddate%26gl%3DUS%26num%3D10%26ceid%3DUS%3Aen&detail=&limit=5&showtitle=false&type=js"></script>
+            <script
+                src="//rss.bloople.net/?url=https%3A%2F%2Fnews.google.com%2Frss%2Fsearch%3Fq%3Dfinance%26hl%3Den-US%26sort%3Ddate%26gl%3DUS%26num%3D10%26ceid%3DUS%3Aen&detail=&limit=5&showtitle=false&type=js"></script>
         </div>
         <div class="businessnews">
             <h1>BANKING NEWS</h1>
-            <script src="//rss.bloople.net/?url=https%3A%2F%2Fnews.google.com%2Frss%2Fsearch%3Fq%3Dbanking%26hl%3Den-US%26sort%3Ddate%26gl%3DUS%26num%3D10%26ceid%3DUS%3Aen&detail=&limit=5&showtitle=false&type=js"></script>
-        </div>
-    </div>
-    <div class="dev-bar">
-       <p id="hover-here"> For Developers</p>
-        <div class="button-container">
-            <Button id="loadDataBtn">Load Initial Data</Button>
-            <Button id="clearLocal">Clear Local Storage</Button>
+            <script
+                src="//rss.bloople.net/?url=https%3A%2F%2Fnews.google.com%2Frss%2Fsearch%3Fq%3Dbanking%26hl%3Den-US%26sort%3Ddate%26gl%3DUS%26num%3D10%26ceid%3DUS%3Aen&detail=&limit=5&showtitle=false&type=js"></script>
         </div>
     </div>
     <script src="script.js"> </script>
