@@ -61,5 +61,11 @@ window.onload = (event) => {
         div.classList.add("user" + i);
         USERCONTAINER.appendChild(div);
     }
+    let body = document.body.children;
+    for(let i = 0; i < body.length; i++){
+        if(body[i].className !== ""){
+            body[i].style.animation = "fade "+ i*.75 + "s";
+        }
+    }
 }
 // Add on click values? notes.

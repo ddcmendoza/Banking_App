@@ -1,5 +1,7 @@
 /* Test JS
 alert("Start pushing"); */
+
+
 // DOM Variables
 let InitialDataBtn = document.querySelector("#loadDataBtn");
 let clearLocalBtn = document.querySelector("#clearLocal");
@@ -201,3 +203,12 @@ function list_users() {
         return "There are no users registered currently...";
     }
 }
+
+window.onload = (event) => {
+    let body = document.body.children;
+    for(let i = 0; i < body.length; i++){
+        if(body[i].className !== ""){
+            body[i].style.animation = "fade "+ 1.5*i + "s";
+        }
+    }
+};

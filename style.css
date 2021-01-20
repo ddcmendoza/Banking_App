@@ -264,3 +264,8 @@ div.tradingview-widget-container{
         grid-template-rows: 1fr 1fr 2fr;
     }
 }
+
+@keyframes fade{
+    from{opacity:30%;}
+    to{opacity:100%}
+}
