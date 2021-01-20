@@ -114,24 +114,6 @@ button:hover{
     box-shadow: 4px 4px 2px dimgray;
     z-index: 100;
 }
-@media only screen and (max-width: 900px){
-    div.user-container{
-        display:grid;
-        grid-template-columns: 1fr 1fr 1fr;
-    }
-}
-
-@media only screen and (max-width: 600px){
-    div.user-container{
-        display:grid;
-        grid-template-columns: 1fr 1fr;
-    }
-}
-@media only screen and (max-width: 360px){
-    div.user-container{
-        display:block;
-    }
-}
 
 
 form{
@@ -244,4 +226,41 @@ div.businessnews{
 }
 div.tradingview-widget-container{
     grid-area: graph;
+}
+
+@media only screen and (max-width: 900px){
+    div.user-container{
+        display:grid;
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+    div.newsfeed{
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-areas: 'news1' 'news2' 'graph';
+        grid-template-rows: 1fr 1fr 1fr;
+    }
+}
+
+@media only screen and (max-width: 600px){
+    div.user-container{
+        display:grid;
+        grid-template-columns: 1fr 1fr;
+    }
+    div.newsfeed{
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-areas: 'news1' 'news2' 'graph';
+        grid-template-rows: 1fr 1fr 1fr;
+    }
+}
+@media only screen and (max-width: 360px){
+    div.user-container{
+        display:block;
+    }
+    div.newsfeed{
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-areas: 'news1' 'news2' 'graph';
+        grid-template-rows: 1fr 1fr 2fr;
+    }
 }
