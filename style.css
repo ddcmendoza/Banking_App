@@ -169,7 +169,9 @@ form{
 }
 div.newsfeed{
     display: grid;
-    grid-template-columns:1fr 1fr ;
+    grid-template-columns:2fr 2fr;
+    grid-template-areas: 'news1 news2' 'graph graph' 'graph graph' 'graph graph';
+    grid-template-rows: 1fr 2fr;
 }
 
 div.worldnews, div.businessnews{
@@ -232,4 +234,14 @@ div.button-container{
         box-shadow: 0 0 10px rgba(0,0,0,0.5);
         border-bottom-left-radius: 2px;
         border-bottom-right-radius: 2px;
+}
+
+div.worldnews{
+    grid-area: news1;
+}
+div.businessnews{
+    grid-area: news2;
+}
+div.tradingview-widget-container{
+    grid-area: graph;
 }
