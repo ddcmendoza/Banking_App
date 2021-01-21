@@ -120,6 +120,9 @@ function isIn(user, users) {
 }
 
 
+
+
+
 //Added 
 BALANCE.addEventListener('click',
     () => {
@@ -146,12 +149,11 @@ BALANCE.addEventListener('click',
                     let obj = JSON.parse(localStorage[i])
                     if (user.toUpperCase() === obj.user.toUpperCase()) {
                         balanceText.innerHTML = obj.balance;
-
                         let today = new Date();
                         let date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
                         let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
                         let hist = JSON.parse(localStorage['history']);
-                        hist.transactions.unshift(date + " " + time + " " + "Deposit " + user.capitalize() + " " + obj.balance);
+                        hist.transactions.unshift(date + " " + time + " " + "Balance " + user.capitalize() + " " + obj.balance);
                         hist = JSON.stringify(hist);
                         localStorage.setItem('history', hist);
                         alert("Successful Balance Inquiry!");
@@ -165,427 +167,423 @@ BALANCE.addEventListener('click',
 
     });
 
-// Deposit button functionality
-DEPOSIT.addEventListener('click',
-    () => {
-        TRANSACTIONCONTAINER[0].style.display = 'inherit';
-        hideButtons();
-        TRANSACTIONLABEL[0].innerHTML = "Deposit Amount: Php";
 
-        // hide receiver name and label
-        document.getElementsByClassName('rec-name')[0].style.display = 'none';
-        document.getElementsByClassName('rec-name-label')[0].style.display = 'none';
-        // hide balance and label
-        document.getElementsByClassName('balance')[0].style.display = 'none';
-        document.getElementsByClassName('balance-label')[0].style.display = 'none';
-        // submit button functionality
-        let submit = TRANSACTIONCONTAINER[0].lastElementChild;
-        submit.addEventListener('click',
-            () => {
-                // fetch user and amount
-                let user = document.getElementsByClassName('name')[0].value;
-                let amount = parseFloat(document.getElementsByClassName('amount')[0].value);
-
-                // check if valid amount
-                if (isNaN(amount) || amount < 0) {
-                    alert("Invalid Deposit Amount!");
-                    location.reload();
-                    return;
-                }
-
-                // check if user exists already
-                for (let i = 0; i < window.localStorage.length - 1; i++) {
-                    let obj = JSON.parse(localStorage[i])
-                    if (user.toUpperCase() === obj.user.toUpperCase()) {
-                        obj.balance = obj.balance + amount;
-                        obj = JSON.stringify(obj);
-                        localStorage.setItem(i, obj);
-
-                        let today = new Date();
-                        let date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
-                        let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-                        let hist = JSON.parse(localStorage['history']);
-                        hist.transactions.unshift(date + " " + time + " " + "Deposit " + user.capitalize() + " " + amount);
-                        hist = JSON.stringify(hist);
-                        localStorage.setItem('history', hist);
-                        location.reload();
-                        alert("Successful Transaction!");
-                        return;
-                    }
-                }
-
-                alert("Invalid Account Name and/or User Doesn't Exist");
-                location.reload();
-            });
-    });
-// DEPOSIT.addEventListener(
-//     'click', transactionCB("Deposit", false)
-// );
-
-
-// batch deposit functionality
-DEPOSITS.addEventListener('click',
-    () => {
-        // hide balance and label
-        document.getElementsByClassName('balance')[0].style.display = 'none';
-        document.getElementsByClassName('balance-label')[0].style.display = 'none';
-
-        // number of transactions
-        let num = prompt("Number of deposit transactions:");
-        TRANSACTIONLABEL[0].innerHTML = "Deposit Amount: Php";
-
-        // check if num is valid number
-        while (num <= 0 || isNaN(parseInt(num))) {
-            num = parseInt(prompt("Must be a number and greater than 0"));
-        }
-
-        // copies number of transaction
-        for (let i = 0; i < num - 1; i++) {
-            let cln = TRANSACTIONCONTAINER[0].cloneNode(true);
-            TRANSACTIONSCONTAINER[0].appendChild(cln);
-        }
-
-        // hides receiver name and label
-        for (let i = 0; i < num; i++) {
-            TRANSACTIONCONTAINER[i].style.display = 'inherit';
-            document.getElementsByClassName('rec-name')[i].style.display = 'none';
-            document.getElementsByClassName('rec-name-label')[i].style.display = 'none';
-        }
-        // hide all submit buttons to make a submit all button
-        let submit = document.getElementsByClassName('transact');
-        for (let i = 0; i < submit.length; i++) {
-            submit[i].style.display = 'none';
-        }
-        let submitAllContainer = document.createElement('div');
-        submitAllContainer.id = 'submitAllContainer';
-        let submitAll = document.createElement('button');
-        submitAll.innerHTML = "Submit All";
-        submitAll.id = 'submitAll';
-        submitAllContainer.appendChild(submitAll);
-        TRANSACTIONSCONTAINER[0].appendChild(submitAllContainer);
-        hideButtons();
-        submitAll.addEventListener('click',
-            () => {
-                // fetch all container for names and amounts
-                let names = document.getElementsByClassName('name');
-                let amounts = document.getElementsByClassName('amount');
-                let errors = "Errors";
-
-                // loops through all containers
-                for (let i = 0; i < names.length; i++) {
-                    let user = names[i].value;
-                    let amount = (amounts[i].value === "") ? 0 : parseFloat(amounts[i].value);
-                    if (amount <= 0) {
-                        errors += "\n Deposit for '" + user + "' : Amount Can't be 0 or Negative";
-                        continue;
-                    }
-
-                    if (!isIn(user, users)) {
-                        errors += "\n Deposit for '" + user + "' : User Invalid Name and/or User Doesn't Exist...";
-                        continue;
-                    }
-                    // this part will be the only different code block on withdraw and send => can be refactored to a single function
-                    for (let j = 0; j < window.localStorage.length - 1; j++) {
-                        let obj = JSON.parse(localStorage[j]);
-                        if (user.toUpperCase() === obj.user.toUpperCase()) {
-                            obj.balance = obj.balance + amount;
-                            obj = JSON.stringify(obj);
-                            localStorage.setItem(j, obj);
-                            let today = new Date();
-                            let date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
-                            let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-                            let hist = JSON.parse(localStorage['history']);
-                            hist.transactions.unshift(date + " " + time + " " + "Deposit " + user.capitalize() + " " + amount);
-                            hist = JSON.stringify(hist);
-                            localStorage.setItem('history', hist);
-                        }
-
-                    }
-
-                }
-                if (errors !== "Errors") alert(errors);
-                location.reload();
-            });
+DEPOSIT.addEventListener
+    ('click', function () {
+        transactionCB("Deposit", false);
     });
 
-// withdraw and send follows the same pattern as deposit with different functionality on the submit buttons, can be refactor later to shorten code
+DEPOSITS.addEventListener
+    ('click', function () {
+        transactionCB("Deposit", true);
+    });
+WITHDRAW.addEventListener
+    ('click', function () {
+        transactionCB("Withdraw", false);
+    });
+WITHDRAWS.addEventListener
+    ('click', function () {
+        transactionCB("Withdraw", true);
+    });
+SEND.addEventListener
+    ('click', function () {
+        transactionCB("Send", false);
+    });
+SENDS.addEventListener
+    ('click', function () {
+        transactionCB("Send", true);
+    });
 
-WITHDRAW.addEventListener('click',
-    () => {
-        TRANSACTIONCONTAINER[0].style.display = 'inherit';
-        hideButtons();
-        TRANSACTIONLABEL[0].innerHTML = "Withdraw Amount: Php";
-        document.getElementsByClassName('rec-name')[0].style.display = 'none';
-        document.getElementsByClassName('rec-name-label')[0].style.display = 'none';
 
-        document.getElementsByClassName('balance')[0].style.display = 'none';
-        document.getElementsByClassName('balance-label')[0].style.display = 'none';
-        let submit = TRANSACTIONCONTAINER[0].lastElementChild;
-        submit.addEventListener('click',
-            () => {
-                let user = document.getElementsByClassName('name')[0].value;
-                let amount = parseFloat(document.getElementsByClassName('amount')[0].value);
-                if (isNaN(amount) || amount < 0) {
-                    alert("Invalid Withdraw Amount!");;
-                    displayLogs();
-                    return;
-                }
-                for (let i = 0; i < window.localStorage.length - 1; i++) {
-                    let obj = JSON.parse(localStorage[i])
-                    if (user.toUpperCase() === obj.user.toUpperCase()) {
-                        obj.balance = obj.balance - amount;
-                        if (obj.balance < 0) {
-                            alert("Insufficient funds!");
+function transactionCB(type, isBatch) {
+    let transactionContainer = TRANSACTIONCONTAINER[0];
+    hideButtons();
+    let transactionLabel = TRANSACTIONLABEL[0];
+    let receiverLabel = document.getElementsByClassName('rec-name-label')[0];
+    let receiverName = document.getElementsByClassName('rec-name')[0];
+    let balanceLabel = document.getElementsByClassName('balance-label')[0];
+    let balanceText = document.getElementsByClassName('balance')[0];
+    let submit = TRANSACTIONCONTAINER[0].lastElementChild;
+
+    if (type === "Deposit" || type || "Withdraw") {
+        receiverLabel.style.display = 'none';
+        receiverName.style.display = 'none';
+        balanceLabel.style.display = 'none';
+        balanceText.style.display = 'none';
+        transactionContainer.style.display = 'inherit';
+    }
+
+    if (type === "Send") {
+        receiverLabel.style.display = 'inherit';
+        receiverName.style.display = 'inherit';
+    }
+
+    switch (type) {
+        case "Deposit":
+            transactionLabel.innerHTML = "Deposit Amount: Php";
+
+            if (isBatch === false) {
+                submit.addEventListener('click',
+                    () => {
+                        // fetch user and amount
+                        let user = document.getElementsByClassName('name')[0].value;
+                        let amount = parseFloat(document.getElementsByClassName('amount')[0].value);
+
+                        // check if valid amount
+                        if (isNaN(amount) || amount < 0) {
+                            alert("Invalid Deposit Amount!");
                             location.reload();
                             return;
                         }
-                        obj = JSON.stringify(obj);
-                        localStorage.setItem(i, obj);
-                        let today = new Date();
-                        let date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
-                        let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-                        let hist = JSON.parse(localStorage['history']);
-                        hist.transactions.unshift(date + " " + time + " " + "Withdraw " + user.capitalize() + " " + amount);
-                        hist = JSON.stringify(hist);
-                        localStorage.setItem('history', hist)
-                        alert("Successful Transaction!");
+
+                        // check if user exists already
+                        for (let i = 0; i < window.localStorage.length - 1; i++) {
+                            let obj = JSON.parse(localStorage[i])
+                            if (user.toUpperCase() === obj.user.toUpperCase()) {
+                                obj.balance = obj.balance + amount;
+                                obj = JSON.stringify(obj);
+                                localStorage.setItem(i, obj);
+
+                                let today = new Date();
+                                let date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+                                let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+                                let hist = JSON.parse(localStorage['history']);
+                                hist.transactions.unshift(date + " " + time + " " + "Deposit " + user.capitalize() + " " + amount);
+                                hist = JSON.stringify(hist);
+                                localStorage.setItem('history', hist);
+                                location.reload();
+                                alert("Successful Transaction!");
+                                return;
+                            }
+                        }
+
+                        alert("Invalid Account Name and/or User Doesn't Exist");
                         location.reload();
-                        return;
-                    }
+                    });
+            }
+            else {
+                // number of transactions
+                let num = prompt("Number of deposit transactions:");
+
+                // check if num is valid number
+                while (num <= 0 || isNaN(parseInt(num))) {
+                    num = parseInt(prompt("Must be a number and greater than 0"));
                 }
-                alert("Invalid Account Name and/or User Doesn't Exist");
-                location.reload();
-            });
-    });
 
-WITHDRAWS.addEventListener('click',
-    () => {
+                // copies number of transaction
+                for (let i = 0; i < num - 1; i++) {
+                    let cln = TRANSACTIONCONTAINER[0].cloneNode(true);
+                    TRANSACTIONSCONTAINER[0].appendChild(cln);
+                }
 
-        document.getElementsByClassName('balance')[0].style.display = 'none';
-        document.getElementsByClassName('balance-label')[0].style.display = 'none';
+                // hide all submit buttons to make a submit all button
+                let submit = document.getElementsByClassName('transact');
+                for (let i = 0; i < submit.length; i++) {
+                    submit[i].style.display = 'none';
+                }
+                let submitAllContainer = document.createElement('div');
+                submitAllContainer.id = 'submitAllContainer';
+                let submitAll = document.createElement('button');
+                submitAll.innerHTML = "Submit All";
+                submitAll.id = 'submitAll';
+                submitAllContainer.appendChild(submitAll);
+                TRANSACTIONSCONTAINER[0].appendChild(submitAllContainer);
 
-        let submit = document.getElementsByClassName('transact');
-        let submitAllContainer = document.createElement('div');
-        let submitAll = document.createElement('button');
+                submitAll.addEventListener('click',
+                    () => {
+                        // fetch all container for names and amounts
+                        let names = document.getElementsByClassName('name');
+                        let amounts = document.getElementsByClassName('amount');
+                        let errors = "Errors";
 
-        let num = prompt("Number of withdraw transactions:");
-        TRANSACTIONLABEL[0].innerHTML = "Withdraw Amount: Php";
-        while (num <= 0 || isNaN(parseInt(num))) {
-            num = prompt("Must be a number and greater than 0");
-        }
-        for (let i = 0; i < num - 1; i++) {
-            let cln = TRANSACTIONCONTAINER[0].cloneNode(true);
-            TRANSACTIONSCONTAINER[0].appendChild(cln);
-        }
-        for (let i = 0; i < num; i++) {
-            TRANSACTIONCONTAINER[i].style.display = 'inherit';
-            document.getElementsByClassName('rec-name')[i].style.display = 'none';
-            document.getElementsByClassName('rec-name-label')[i].style.display = 'none';
-        }
-
-        for (let i = 0; i < submit.length; i++) {
-            submit[i].style.display = 'none';
-        }
-
-        submitAllContainer.id = 'submitAllContainer';
-
-        submitAll.innerHTML = "Submit All";
-        submitAll.id = 'submitAll';
-        submitAllContainer.appendChild(submitAll);
-        TRANSACTIONSCONTAINER[0].appendChild(submitAllContainer);
-        hideButtons();
-        submitAll.addEventListener('click',
-            () => {
-                let names = document.getElementsByClassName('name');
-                let amounts = document.getElementsByClassName('amount');
-                let errors = "Errors";
-                for (let i = 0; i < names.length; i++) {
-                    let user = names[i].value;
-                    let amount = (amounts[i].value === "") ? 0 : parseFloat(amounts[i].value);
-                    if (amount < 0) {
-                        continue;
-                    }
-
-                    if (!isIn(user, users)) {
-                        errors += "\n Withdrawal for '" + user + "' : User Invalid Name and/or User Doesn't Exist...";
-                        continue;
-                    }
-
-                    for (let j = 0; j < window.localStorage.length - 1; j++) {
-                        let obj = JSON.parse(localStorage[j]);
-                        if (user.toUpperCase() === obj.user.toUpperCase()) {
-                            obj.balance = obj.balance - amount;
-                            if (obj.balance < 0) {
-                                errors += "\n Withdrawal for '" + user + "' : Insufficient Funds...";
+                        // loops through all containers
+                        for (let i = 0; i < names.length; i++) {
+                            let user = names[i].value;
+                            let amount = (amounts[i].value === "") ? 0 : parseFloat(amounts[i].value);
+                            if (amount <= 0) {
+                                errors += "\n Deposit for '" + user + "' : Amount Can't be 0 or Negative";
                                 continue;
                             }
-                            obj = JSON.stringify(obj);
-                            localStorage.setItem(j, obj);
-                            let today = new Date();
-                            let date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
-                            let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-                            let hist = JSON.parse(localStorage['history']);
-                            hist.transactions.unshift(date + " " + time + " " + "Withdraw " + user.capitalize() + " " + amount);
-                            hist = JSON.stringify(hist);
-                            localStorage.setItem('history', hist)
-                        }
-                    }
-                }
-                if (errors !== "Errors") alert(errors);
-                location.reload();
-            });
-    });
 
-
-SEND.addEventListener('click',
-    () => {
-
-        document.getElementsByClassName('balance')[0].style.display = 'none';
-        document.getElementsByClassName('balance-label')[0].style.display = 'none';
-        TRANSACTIONCONTAINER[0].style.display = 'inherit';
-        hideButtons();
-        TRANSACTIONLABEL[0].innerHTML = "Amount: Php"
-        let submit = TRANSACTIONCONTAINER[0].lastElementChild;
-        submit.addEventListener('click',
-            () => {
-                let user = document.getElementsByClassName('name')[0].value;
-                let amount = parseFloat(document.getElementsByClassName('amount')[0].value);
-                let receiver = document.getElementsByClassName('rec-name')[0].value;
-                if (isNaN(amount) || amount < 0) {
-                    alert("Invalid Transfer Amount!");
-                    location.reload();
-                    return;
-                }
-                for (let i = 0; i < window.localStorage.length - 1; i++) {
-                    let obj = JSON.parse(localStorage[i])
-                    if (user.toUpperCase() === obj.user.toUpperCase()) {
-                        if (obj.balance >= amount) {
+                            if (!isIn(user, users)) {
+                                errors += "\n Deposit for '" + user + "' : User Invalid Name and/or User Doesn't Exist...";
+                                continue;
+                            }
+                            // this part will be the only different code block on withdraw and send => can be refactored to a single function
                             for (let j = 0; j < window.localStorage.length - 1; j++) {
-                                let receiverObj = JSON.parse(localStorage[j]);
-                                if (receiver.toUpperCase() === receiverObj.user.toUpperCase()) {
-                                    obj.balance = obj.balance - amount;
-                                    receiverObj.balance = receiverObj.balance + amount;
+                                let obj = JSON.parse(localStorage[j]);
+                                if (user.toUpperCase() === obj.user.toUpperCase()) {
+                                    obj.balance = obj.balance + amount;
                                     obj = JSON.stringify(obj);
-                                    receiverObj = JSON.stringify(receiverObj);
-                                    localStorage.setItem(j, receiverObj);
-                                    localStorage.setItem(i, obj);
+                                    localStorage.setItem(j, obj);
                                     let today = new Date();
                                     let date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
                                     let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
                                     let hist = JSON.parse(localStorage['history']);
-                                    hist.transactions.unshift(date + " " + time + " " + "Send " + user.capitalize() + " " + amount + " " + receiver.capitalize());
+                                    hist.transactions.unshift(date + " " + time + " " + "Deposit " + user.capitalize() + " " + amount);
+                                    hist = JSON.stringify(hist);
+                                    localStorage.setItem('history', hist);
+                                }
+
+                            }
+                        }
+                        if (errors !== "Errors") alert(errors);
+                        location.reload();
+                    });
+            }
+            break;
+
+        case "Withdraw":
+            if (isBatch === false) {
+                transactionContainer.style.display = 'inherit';
+                TRANSACTIONLABEL[0].innerHTML = "Withdraw Amount: Php";
+                submit.addEventListener('click',
+                    () => {
+                        let user = document.getElementsByClassName('name')[0].value;
+                        let amount = parseFloat(document.getElementsByClassName('amount')[0].value);
+                        if (isNaN(amount) || amount < 0) {
+                            alert("Invalid Withdraw Amount!");;
+                            displayLogs();
+                            return;
+                        }
+                        for (let i = 0; i < window.localStorage.length - 1; i++) {
+                            let obj = JSON.parse(localStorage[i])
+                            if (user.toUpperCase() === obj.user.toUpperCase()) {
+                                obj.balance = obj.balance - amount;
+                                if (obj.balance < 0) {
+                                    alert("Insufficient funds!");
+                                    location.reload();
+                                    return;
+                                }
+                                obj = JSON.stringify(obj);
+                                localStorage.setItem(i, obj);
+                                let today = new Date();
+                                let date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+                                let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+                                let hist = JSON.parse(localStorage['history']);
+                                hist.transactions.unshift(date + " " + time + " " + "Withdraw " + user.capitalize() + " " + amount);
+                                hist = JSON.stringify(hist);
+                                localStorage.setItem('history', hist)
+                                alert("Successful Transaction!");
+                                location.reload();
+                                return;
+                            }
+                        }
+                        alert("Invalid Account Name and/or User Doesn't Exist");
+                        location.reload();
+                    });
+            }
+            else {
+                let submit = document.getElementsByClassName('transact');
+                let submitAllContainer = document.createElement('div');
+                let submitAll = document.createElement('button');
+
+                let num = prompt("Number of withdraw transactions:");
+                TRANSACTIONLABEL[0].innerHTML = "Withdraw Amount: Php";
+                while (num <= 0 || isNaN(parseInt(num))) {
+                    num = prompt("Must be a number and greater than 0");
+                }
+                for (let i = 0; i < num - 1; i++) {
+                    let cln = TRANSACTIONCONTAINER[0].cloneNode(true);
+                    TRANSACTIONSCONTAINER[0].appendChild(cln);
+                }
+
+                for (let i = 0; i < submit.length; i++) {
+                    submit[i].style.display = 'none';
+                }
+
+                submitAllContainer.id = 'submitAllContainer';
+                submitAll.innerHTML = "Submit All";
+                submitAll.id = 'submitAll';
+                submitAllContainer.appendChild(submitAll);
+                TRANSACTIONSCONTAINER[0].appendChild(submitAllContainer);
+                submitAll.addEventListener('click',
+                    () => {
+                        let names = document.getElementsByClassName('name');
+                        let amounts = document.getElementsByClassName('amount');
+                        let errors = "Errors";
+                        for (let i = 0; i < names.length; i++) {
+                            let user = names[i].value;
+                            let amount = (amounts[i].value === "") ? 0 : parseFloat(amounts[i].value);
+                            if (amount < 0) {
+                                continue;
+                            }
+
+                            if (!isIn(user, users)) {
+                                errors += "\n Withdrawal for '" + user + "' : User Invalid Name and/or User Doesn't Exist...";
+                                continue;
+                            }
+
+                            for (let j = 0; j < window.localStorage.length - 1; j++) {
+                                let obj = JSON.parse(localStorage[j]);
+                                if (user.toUpperCase() === obj.user.toUpperCase()) {
+                                    obj.balance = obj.balance - amount;
+                                    if (obj.balance < 0) {
+                                        errors += "\n Withdrawal for '" + user + "' : Insufficient Funds...";
+                                        continue;
+                                    }
+                                    obj = JSON.stringify(obj);
+                                    localStorage.setItem(j, obj);
+                                    let today = new Date();
+                                    let date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+                                    let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+                                    let hist = JSON.parse(localStorage['history']);
+                                    hist.transactions.unshift(date + " " + time + " " + "Withdraw " + user.capitalize() + " " + amount);
                                     hist = JSON.stringify(hist);
                                     localStorage.setItem('history', hist)
-                                    alert("Successful Transaction!");
+                                }
+                            }
+                        }
+                        if (errors !== "Errors") alert(errors);
+                        location.reload();
+                    });
+            }
+            break;
+        case "Send":
+            alert("Send Clicked!");
+            if (isBatch === false) {
+                alert("Single Send!");
+                TRANSACTIONCONTAINER[0].style.display = 'inherit';
+                let submit = TRANSACTIONCONTAINER[0].lastElementChild;
+                submit.addEventListener('click',
+                    () => {
+                        let user = document.getElementsByClassName('name')[0].value;
+                        let amount = parseFloat(document.getElementsByClassName('amount')[0].value);
+                        let receiver = document.getElementsByClassName('rec-name')[0].value;
+                        if (isNaN(amount) || amount < 0) {
+                            alert("Invalid Transfer Amount!");
+                            location.reload();
+                            return;
+                        }
+                        for (let i = 0; i < window.localStorage.length - 1; i++) {
+                            let obj = JSON.parse(localStorage[i])
+                            if (user.toUpperCase() === obj.user.toUpperCase()) {
+                                if (obj.balance >= amount) {
+                                    for (let j = 0; j < window.localStorage.length - 1; j++) {
+                                        let receiverObj = JSON.parse(localStorage[j]);
+                                        if (receiver.toUpperCase() === receiverObj.user.toUpperCase()) {
+                                            obj.balance = obj.balance - amount;
+                                            receiverObj.balance = receiverObj.balance + amount;
+                                            obj = JSON.stringify(obj);
+                                            receiverObj = JSON.stringify(receiverObj);
+                                            localStorage.setItem(j, receiverObj);
+                                            localStorage.setItem(i, obj);
+                                            let today = new Date();
+                                            let date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+                                            let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+                                            let hist = JSON.parse(localStorage['history']);
+                                            hist.transactions.unshift(date + " " + time + " " + "Send " + user.capitalize() + " " + amount + " " + receiver.capitalize());
+                                            hist = JSON.stringify(hist);
+                                            localStorage.setItem('history', hist)
+                                            alert("Successful Transaction!");
+                                            location.reload();
+                                            return;
+                                        }
+                                    }
+                                    alert("Invalid Recipient Name and/or User Doesn't Exist")
+                                    location.reload();
+                                    return;
+                                }
+                                else {
+                                    alert("Insufficient funds on account!");
                                     location.reload();
                                     return;
                                 }
                             }
-                            alert("Invalid Recipient Name and/or User Doesn't Exist")
-                            location.reload();
-                            return;
                         }
-                        else {
-                            alert("Insufficient funds on account!");
-                            location.reload();
-                            return;
-                        }
-                    }
+                        alert("Invalid Sender Name and/or User Doesn't Exist");
+                        location.reload();
+                    });
+            }
+            else {
+                document.getElementsByClassName('balance')[0].style.display = 'none';
+                document.getElementsByClassName('balance-label')[0].style.display = 'none';
+                let num = prompt("Number of Send transactions:");
+
+                while (num <= 0 || isNaN(parseInt(num))) {
+                    num = prompt("Must be a number and greater than 0");
                 }
-                alert("Invalid Sender Name and/or User Doesn't Exist");
-                location.reload();
-            });
 
-    });
+                for (let i = 0; i < num - 1; i++) {
+                    let cln = TRANSACTIONCONTAINER[0].cloneNode(true);
+                    TRANSACTIONSCONTAINER[0].appendChild(cln);
+                }
+                for (let i = 0; i < num; i++) {
+                    TRANSACTIONCONTAINER[i].style.display = 'inherit';
+                }
+                let submit = document.getElementsByClassName('transact');
+                for (let i = 0; i < submit.length; i++) {
+                    submit[i].style.display = 'none';
+                }
+                let submitAllContainer = document.createElement('div');
+                submitAllContainer.id = 'submitAllContainer';
+                let submitAll = document.createElement('button');
+                submitAll.innerHTML = "Submit All";
+                submitAll.id = 'submitAll';
+                submitAllContainer.appendChild(submitAll);
+                TRANSACTIONSCONTAINER[0].appendChild(submitAllContainer);
+                hideButtons();
+                submitAll.addEventListener('click',
+                    () => {
+                        let names = document.getElementsByClassName('name');
+                        let amounts = document.getElementsByClassName('amount');
+                        let receivers = document.getElementsByClassName('rec-name');
 
-SENDS.addEventListener('click',
-    () => {
+                        let errors = "Errors";
 
-        document.getElementsByClassName('balance')[0].style.display = 'none';
-        document.getElementsByClassName('balance-label')[0].style.display = 'none';
-        let num = prompt("Number of Send transactions:");
-
-        while (num <= 0 || isNaN(parseInt(num))) {
-            num = prompt("Must be a number and greater than 0");
-        }
-
-        for (let i = 0; i < num - 1; i++) {
-            let cln = TRANSACTIONCONTAINER[0].cloneNode(true);
-            TRANSACTIONSCONTAINER[0].appendChild(cln);
-        }
-        for (let i = 0; i < num; i++) {
-            TRANSACTIONCONTAINER[i].style.display = 'inherit';
-        }
-        let submit = document.getElementsByClassName('transact');
-        for (let i = 0; i < submit.length; i++) {
-            submit[i].style.display = 'none';
-        }
-        let submitAllContainer = document.createElement('div');
-        submitAllContainer.id = 'submitAllContainer';
-        let submitAll = document.createElement('button');
-        submitAll.innerHTML = "Submit All";
-        submitAll.id = 'submitAll';
-        submitAllContainer.appendChild(submitAll);
-        TRANSACTIONSCONTAINER[0].appendChild(submitAllContainer);
-        hideButtons();
-        submitAll.addEventListener('click',
-            () => {
-                let names = document.getElementsByClassName('name');
-                let amounts = document.getElementsByClassName('amount');
-                let receivers = document.getElementsByClassName('rec-name');
-
-                let errors = "Errors";
-
-                for (let i = 0; i < names.length; i++) {
-                    let user = names[i].value;
-                    let amount = (amounts[i].value === "") ? 0 : parseFloat(amounts[i].value);
-                    let receiver = receivers[i].value;
-                    if (amount <= 0) {
-                        errors += "\n Sending for '" + user + "' : Amount can't be 0 or negative";
-                        continue;
-                    }
-                    if (!isIn(user, users)) {
-                        errors += "\n Sending for '" + user + "' to '" + receiver + "' : User Invalid Name and/or Sender Doesn't Exist...";
-                        continue;
-                    }
-                    if (!isIn(receiver, users)) {
-                        errors += "\n Sending for '" + user + "' to '" + receiver + "' : User Invalid Name and/or Sender Doesn't Exist...";
-                        continue;
-                    }
-                    for (let j = 0; j < window.localStorage.length - 1; j++) {
-                        let obj = JSON.parse(localStorage[j]);
-                        if (user.toUpperCase() === obj.user.toUpperCase()) {
-                            if (obj.balance >= amount) {
-                                for (let k = 0; k < window.localStorage.length - 1; k++) {
-                                    let receiverObj = JSON.parse(localStorage[k]);
-                                    if (receiver.toUpperCase() === receiverObj.user.toUpperCase()) {
-                                        obj.balance = obj.balance - amount;
-                                        receiverObj.balance = receiverObj.balance + amount;
-                                        obj = JSON.stringify(obj);
-                                        receiverObj = JSON.stringify(receiverObj);
-                                        localStorage.setItem(k, receiverObj);
-                                        localStorage.setItem(j, obj);
-                                        let today = new Date();
-                                        let date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
-                                        let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-                                        let hist = JSON.parse(localStorage['history']);
-                                        hist.transactions.unshift(date + " " + time + " " + "Send " + user.capitalize() + " " + amount + " " + receiver.capitalize());
-                                        hist = JSON.stringify(hist);
-                                        localStorage.setItem('history', hist)
+                        for (let i = 0; i < names.length; i++) {
+                            let user = names[i].value;
+                            let amount = (amounts[i].value === "") ? 0 : parseFloat(amounts[i].value);
+                            let receiver = receivers[i].value;
+                            if (amount <= 0) {
+                                errors += "\n Sending for '" + user + "' : Amount can't be 0 or negative";
+                                continue;
+                            }
+                            if (!isIn(user, users)) {
+                                errors += "\n Sending for '" + user + "' to '" + receiver + "' : User Invalid Name and/or Sender Doesn't Exist...";
+                                continue;
+                            }
+                            if (!isIn(receiver, users)) {
+                                errors += "\n Sending for '" + user + "' to '" + receiver + "' : User Invalid Name and/or Sender Doesn't Exist...";
+                                continue;
+                            }
+                            for (let j = 0; j < window.localStorage.length - 1; j++) {
+                                let obj = JSON.parse(localStorage[j]);
+                                if (user.toUpperCase() === obj.user.toUpperCase()) {
+                                    if (obj.balance >= amount) {
+                                        for (let k = 0; k < window.localStorage.length - 1; k++) {
+                                            let receiverObj = JSON.parse(localStorage[k]);
+                                            if (receiver.toUpperCase() === receiverObj.user.toUpperCase()) {
+                                                obj.balance = obj.balance - amount;
+                                                receiverObj.balance = receiverObj.balance + amount;
+                                                obj = JSON.stringify(obj);
+                                                receiverObj = JSON.stringify(receiverObj);
+                                                localStorage.setItem(k, receiverObj);
+                                                localStorage.setItem(j, obj);
+                                                let today = new Date();
+                                                let date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+                                                let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+                                                let hist = JSON.parse(localStorage['history']);
+                                                hist.transactions.unshift(date + " " + time + " " + "Send " + user.capitalize() + " " + amount + " " + receiver.capitalize());
+                                                hist = JSON.stringify(hist);
+                                                localStorage.setItem('history', hist)
+                                            }
+                                        }
+                                    }
+                                    else {
+                                        errors += "\n Sending for '" + user + "' to '" + receiver + "' : Sender Has Insufficient funds";
+                                        continue;
                                     }
                                 }
                             }
-                            else {
-                                errors += "\n Sending for '" + user + "' to '" + receiver + "' : Sender Has Insufficient funds";
-                                continue;
-                            }
                         }
-                    }
-                }
-                if (errors !== "Errors") alert(errors);
-                location.reload();
-            });
-    });
+                        if (errors !== "Errors") alert(errors);
+                        location.reload();
+                    });
+            }
+            break;
+    }
+}
 
 
 window.onload = (event) => {
