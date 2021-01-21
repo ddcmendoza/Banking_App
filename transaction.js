@@ -119,54 +119,10 @@ function isIn(user, users) {
     return false;
 }
 
-
-
-
-
-//Added 
-BALANCE.addEventListener('click',
-    () => {
-        TRANSACTIONCONTAINER[0].style.display = 'inherit';
-        hideButtons();
-
-        //hide unnecessary label and fields.
-        document.getElementsByClassName('rec-name')[0].style.display = 'none';
-        document.getElementsByClassName('rec-name-label')[0].style.display = 'none';
-        document.getElementsByClassName('amount')[0].style.display = 'none';
-        document.getElementsByClassName('transactionlabel')[0].style.display = 'none';
-
-        const balanceText = document.getElementsByClassName('balance')[0];
-
-        let submit = TRANSACTIONCONTAINER[0].lastElementChild;
-
-        submit.addEventListener('click',
-            () => {
-                // fetch user and amount
-                let user = document.getElementsByClassName('name')[0].value;
-
-                // check if user exists already
-                for (let i = 0; i < window.localStorage.length - 1; i++) {
-                    let obj = JSON.parse(localStorage[i])
-                    if (user.toUpperCase() === obj.user.toUpperCase()) {
-                        balanceText.innerHTML = obj.balance;
-                        let today = new Date();
-                        let date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
-                        let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-                        let hist = JSON.parse(localStorage['history']);
-                        hist.transactions.unshift(date + " " + time + " " + "Balance " + user.capitalize() + " " + obj.balance);
-                        hist = JSON.stringify(hist);
-                        localStorage.setItem('history', hist);
-                        alert("Successful Balance Inquiry!");
-                        return;
-                    }
-                }
-
-                alert("Invalid Account Name and/or User Doesn't Exist");
-                location.reload();
-            });
-
+BALANCE.addEventListener
+    ('click', function () {
+        transactionCB("Balance", false);
     });
-
 
 DEPOSIT.addEventListener
     ('click', function () {
@@ -194,6 +150,53 @@ SENDS.addEventListener
         transactionCB("Send", true);
     });
 
+function processAndLog(user, type, isBatch, amount = 0) {
+
+    let balanceText = document.getElementsByClassName('balance')[0];
+
+    // check if user exists already and process (single transactions)
+    for (let i = 0; i < window.localStorage.length - 1; i++) {
+        let obj = JSON.parse(localStorage[i])
+        if (user.toUpperCase() === obj.user.toUpperCase()) {
+            let today = new Date();
+            let date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+            let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+            let hist = JSON.parse(localStorage['history']);
+            if (type === "Balance" && isBatch === false) {
+                balanceText.innerHTML = obj.balance;
+                hist.transactions.unshift(date + " " + time + " " + "Balance " + user.capitalize() + " " + obj.balance);
+                alert("Successful Balance Inquiry!");
+            }
+            if (type === "Deposit" && isBatch === false) {
+                obj.balance = obj.balance + amount;
+                obj = JSON.stringify(obj);
+                localStorage.setItem(i, obj);
+                hist.transactions.unshift(date + " " + time + " " + "Deposit " + user.capitalize() + " " + amount);
+                alert("Successful Transaction!");
+            }
+            if (type === "Withdraw" && isBatch === false) {
+                obj.balance = obj.balance - amount;
+                if (obj.balance < 0) {
+                    alert("Insufficient funds!");
+                    location.reload();
+                    return;
+                }
+                obj = JSON.stringify(obj);
+                localStorage.setItem(i, obj);
+                hist.transactions.unshift(date + " " + time + " " + "Withdraw " + user.capitalize() + " " + amount);
+                alert("Successful Transaction!");
+            }
+            hist = JSON.stringify(hist);
+            localStorage.setItem('history', hist);
+            return;
+        }
+    }
+
+    alert("Invalid Account Name and/or User Doesn't Exist");
+    location.reload();
+
+}
+
 
 function transactionCB(type, isBatch) {
     let transactionContainer = TRANSACTIONCONTAINER[0];
@@ -203,15 +206,8 @@ function transactionCB(type, isBatch) {
     let receiverName = document.getElementsByClassName('rec-name')[0];
     let balanceLabel = document.getElementsByClassName('balance-label')[0];
     let balanceText = document.getElementsByClassName('balance')[0];
-    let submit = TRANSACTIONCONTAINER[0].lastElementChild;
+    let amount = document.getElementsByClassName('amount')[0];
 
-    if (type === "Deposit" || type || "Withdraw") {
-        receiverLabel.style.display = 'none';
-        receiverName.style.display = 'none';
-        balanceLabel.style.display = 'none';
-        balanceText.style.display = 'none';
-        transactionContainer.style.display = 'inherit';
-    }
 
     if (type === "Send") {
         receiverLabel.style.display = 'inherit';
@@ -219,11 +215,35 @@ function transactionCB(type, isBatch) {
     }
 
     switch (type) {
-        case "Deposit":
-            transactionLabel.innerHTML = "Deposit Amount: Php";
+        case "Balance":
+            let submit = TRANSACTIONCONTAINER[0].lastElementChild;
+            transactionContainer.style.display = 'inherit';
+            receiverLabel.style.display = 'none';
+            receiverName.style.display = 'none';
+            transactionLabel.style.display = 'none';
+            amount.style.display = 'none'
 
+            //hide unnecessary label and fields.
+            submit.addEventListener('click',
+                () => {
+                    let user = document.getElementsByClassName('name')[0].value;
+                    // fetch user and amount
+                    //  processAndLog(user);
+                    processAndLog(user, "Balance", false);
+                });
+
+            break;
+
+        case "Deposit":
+            transactionContainer.style.display = 'inherit';
+            transactionLabel.innerHTML = "Deposit Amount: Php";
+            receiverLabel.style.display = 'none';
+            receiverName.style.display = 'none';
+            balanceLabel.style.display = 'none';
+            balanceText.style.display = 'none';
             if (isBatch === false) {
-                submit.addEventListener('click',
+                let submit1 = TRANSACTIONCONTAINER[0].lastElementChild;
+                submit1.addEventListener('click',
                     () => {
                         // fetch user and amount
                         let user = document.getElementsByClassName('name')[0].value;
@@ -235,33 +255,13 @@ function transactionCB(type, isBatch) {
                             location.reload();
                             return;
                         }
-
-                        // check if user exists already
-                        for (let i = 0; i < window.localStorage.length - 1; i++) {
-                            let obj = JSON.parse(localStorage[i])
-                            if (user.toUpperCase() === obj.user.toUpperCase()) {
-                                obj.balance = obj.balance + amount;
-                                obj = JSON.stringify(obj);
-                                localStorage.setItem(i, obj);
-
-                                let today = new Date();
-                                let date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
-                                let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-                                let hist = JSON.parse(localStorage['history']);
-                                hist.transactions.unshift(date + " " + time + " " + "Deposit " + user.capitalize() + " " + amount);
-                                hist = JSON.stringify(hist);
-                                localStorage.setItem('history', hist);
-                                location.reload();
-                                alert("Successful Transaction!");
-                                return;
-                            }
-                        }
-
-                        alert("Invalid Account Name and/or User Doesn't Exist");
+                        // // check if user exists already
+                        processAndLog(user, "Deposit", false, amount);
                         location.reload();
                     });
             }
             else {
+                // MULTIPLE DEPOSIT
                 // number of transactions
                 let num = prompt("Number of deposit transactions:");
 
@@ -281,6 +281,7 @@ function transactionCB(type, isBatch) {
                 for (let i = 0; i < submit.length; i++) {
                     submit[i].style.display = 'none';
                 }
+
                 let submitAllContainer = document.createElement('div');
                 submitAllContainer.id = 'submitAllContainer';
                 let submitAll = document.createElement('button');
@@ -301,14 +302,15 @@ function transactionCB(type, isBatch) {
                             let user = names[i].value;
                             let amount = (amounts[i].value === "") ? 0 : parseFloat(amounts[i].value);
                             if (amount <= 0) {
-                                errors += "\n Deposit for '" + user + "' : Amount Can't be 0 or Negative";
+                                errors += "\n" + i + ".) Deposit for '" + user + "' : Amount Can't be 0 or Negative";
                                 continue;
                             }
 
                             if (!isIn(user, users)) {
-                                errors += "\n Deposit for '" + user + "' : User Invalid Name and/or User Doesn't Exist...";
+                                errors += "\n" + i + ".) Deposit for '" + user + "' : User Invalid Name and/or User Doesn't Exist...";
                                 continue;
                             }
+
                             // this part will be the only different code block on withdraw and send => can be refactored to a single function
                             for (let j = 0; j < window.localStorage.length - 1; j++) {
                                 let obj = JSON.parse(localStorage[j]);
@@ -334,42 +336,26 @@ function transactionCB(type, isBatch) {
             break;
 
         case "Withdraw":
+            transactionContainer.style.display = 'inherit';
+            transactionLabel.innerHTML = "Withdraw Amount: Php";
+            receiverLabel.style.display = 'none';
+            receiverName.style.display = 'none';
+            balanceLabel.style.display = 'none';
+            balanceText.style.display = 'none';
             if (isBatch === false) {
-                transactionContainer.style.display = 'inherit';
-                TRANSACTIONLABEL[0].innerHTML = "Withdraw Amount: Php";
-                submit.addEventListener('click',
+                let submit2 = TRANSACTIONCONTAINER[0].lastElementChild;
+
+                submit2.addEventListener('click',
                     () => {
                         let user = document.getElementsByClassName('name')[0].value;
                         let amount = parseFloat(document.getElementsByClassName('amount')[0].value);
                         if (isNaN(amount) || amount < 0) {
                             alert("Invalid Withdraw Amount!");;
-                            displayLogs();
+                            location.reload();
                             return;
                         }
-                        for (let i = 0; i < window.localStorage.length - 1; i++) {
-                            let obj = JSON.parse(localStorage[i])
-                            if (user.toUpperCase() === obj.user.toUpperCase()) {
-                                obj.balance = obj.balance - amount;
-                                if (obj.balance < 0) {
-                                    alert("Insufficient funds!");
-                                    location.reload();
-                                    return;
-                                }
-                                obj = JSON.stringify(obj);
-                                localStorage.setItem(i, obj);
-                                let today = new Date();
-                                let date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
-                                let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-                                let hist = JSON.parse(localStorage['history']);
-                                hist.transactions.unshift(date + " " + time + " " + "Withdraw " + user.capitalize() + " " + amount);
-                                hist = JSON.stringify(hist);
-                                localStorage.setItem('history', hist)
-                                alert("Successful Transaction!");
-                                location.reload();
-                                return;
-                            }
-                        }
-                        alert("Invalid Account Name and/or User Doesn't Exist");
+
+                        processAndLog(user, "Withdraw", false, amount);
                         location.reload();
                     });
             }
@@ -440,12 +426,16 @@ function transactionCB(type, isBatch) {
             }
             break;
         case "Send":
-            alert("Send Clicked!");
+            balanceLabel.style.display = 'none';
+            balanceText.style.display = 'none';
+            transactionLabel.innerHTML = "Send Amount: Php";
+
             if (isBatch === false) {
-                alert("Single Send!");
+
                 TRANSACTIONCONTAINER[0].style.display = 'inherit';
                 let submit = TRANSACTIONCONTAINER[0].lastElementChild;
                 submit.addEventListener('click',
+
                     () => {
                         let user = document.getElementsByClassName('name')[0].value;
                         let amount = parseFloat(document.getElementsByClassName('amount')[0].value);
@@ -485,7 +475,7 @@ function transactionCB(type, isBatch) {
                                     return;
                                 }
                                 else {
-                                    alert("Insufficient funds on account!");
+                                    alert("Insufficient funds on Sender account!");
                                     location.reload();
                                     return;
                                 }
