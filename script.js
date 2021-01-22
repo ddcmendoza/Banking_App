@@ -212,3 +212,11 @@ window.onload = (event) => {
         }
     }
 };
+
+
+const sidebar = document.getElementById('sidebar');
+const button = document.getElementById('toggle');
+
+button.addEventListener('mouseenter', _ => {
+  sidebar.classList.toggle('collapsed');
+});
