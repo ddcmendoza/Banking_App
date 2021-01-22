@@ -208,7 +208,7 @@ window.onload = (event) => {
     let body = document.body.children;
     for(let i = 0; i < body.length; i++){
         if(body[i].className !== ""){
-            body[i].style.animation = "fade "+ 1.5*i + "s";
+            body[i].style.animation = "fade "+ Math.sqrt(1.5*i) + "s";
         }
     }
 };

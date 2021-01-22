@@ -64,7 +64,7 @@ window.onload = (event) => {
     let body = document.body.children;
     for(let i = 0; i < body.length; i++){
         if(body[i].className !== ""){
-            body[i].style.animation = "fade "+ i*.75 + "s";
+            body[i].style.animation = "fade "+ Math.sqrt(i*.75) + "s";
         }
     }
 }
