@@ -104,7 +104,10 @@ ADDS.addEventListener(
 
         //Ask how many users are to be added at once
         let num = prompt("Number of users to be added:");
-
+        if(num === null) {
+            location.reload();
+            return;
+        }
         while (num <= 0 || isNaN(parseInt(num))) {
             num = prompt("Must be a number and greater than 0");
         }

@@ -264,7 +264,10 @@ function transactionCB(type, isBatch) {
                 // MULTIPLE DEPOSIT
                 // number of transactions
                 let num = prompt("Number of deposit transactions:");
-
+                if(num === null) {
+                    location.reload();
+                    return;
+                }
                 // check if num is valid number
                 while (num <= 0 || isNaN(parseInt(num))) {
                     num = parseInt(prompt("Must be a number and greater than 0"));
@@ -365,6 +368,10 @@ function transactionCB(type, isBatch) {
                 let submitAll = document.createElement('button');
 
                 let num = prompt("Number of withdraw transactions:");
+                if(num === null) {
+                    location.reload();
+                    return;
+                }
                 TRANSACTIONLABEL[0].innerHTML = "Withdraw Amount: Php";
                 while (num <= 0 || isNaN(parseInt(num))) {
                     num = prompt("Must be a number and greater than 0");
@@ -489,7 +496,10 @@ function transactionCB(type, isBatch) {
                 document.getElementsByClassName('balance')[0].style.display = 'none';
                 document.getElementsByClassName('balance-label')[0].style.display = 'none';
                 let num = prompt("Number of Send transactions:");
-
+                if(num === null) {
+                    location.reload();
+                    return;
+                }
                 while (num <= 0 || isNaN(parseInt(num))) {
                     num = prompt("Must be a number and greater than 0");
                 }
