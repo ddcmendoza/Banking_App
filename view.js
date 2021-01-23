@@ -23,7 +23,7 @@ window.onload = (event) => {
         let obj = JSON.parse(localStorage[i]);
         let notes = document.createElement("div");
         let ta = document.createElement("textarea");
-        h2.innerHTML = obj.user;
+        h2.innerHTML = obj.user.replace(/-/g," ");
         p.innerHTML = "Balance : " + formatter.format(obj.balance);
         ta.id = "ta" + i;
         ta.style.resize = 'none';
@@ -39,7 +39,7 @@ window.onload = (event) => {
             toggle.style.display = 'none';
             tatoggle.style.display = 'inherit';
             tatoggle.value  = toggle.innerHTML;
-            onkeydown = (event) =>{
+            tatoggle.addEventListener("keydown", (event) =>{
                 let key = event.keyCode;
                 // keyCode 13 is Enter
                 if(key==13){
@@ -50,7 +50,7 @@ window.onload = (event) => {
                     obj = JSON.stringify(obj);
                     localStorage.setItem(i,obj);
                 }
-            }
+            })
         });
         div.appendChild(h2);
         div.appendChild(p);

@@ -52,6 +52,8 @@ ADD.addEventListener(
                 let names = document.getElementsByClassName('name');
                 let balances = document.getElementsByClassName('balance');
                 let user = names[0].value.capitalize();
+                user = user.replace(/\s/g,"-");
+
 
                 if (user === '' || isIn(user[0], NUMS)) {
                     alert("Name can't be empty or start with a number");
@@ -144,6 +146,7 @@ ADDS.addEventListener(
                 for (let i = 0; i < names.length; i++) {
 
                     let user = names[i].value.capitalize();
+                    user = user.replace(/\s/g,"-");
                     if (user === '' || isIn(user[0], NUMS)) {
                         errors += "\n Entry for '" + user + "' : Name Can't be Empty or start with number";
                         continue;

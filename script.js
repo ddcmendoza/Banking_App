@@ -32,6 +32,7 @@ if (InitialDataBtn !== null) {
         'click',
         function () {
             loadInitialData();
+            location.reload();
         }
     );
 }
@@ -58,6 +59,7 @@ if (clearLocalBtn !== null) {
             window.localStorage.clear();
             window.localStorage.setItem('history', JSON.stringify({ 'transactions': [] }));
             alert("Local Storage cleared!");
+            location.reload();
         }
     );
 }
@@ -189,13 +191,14 @@ function get_balance(user) {
 
 function list_users() {
     console.log("Registered Users \n");
-    if (UsersArr.length != 0) {
+    if (localStorage.length != 1) {
         /*  for (i = 0; i < UsersArr.length; i++) {
              return "User: '" + UsersArr[i].user + "'  Balance: " + UsersArr[i].balance;
          } */
         let result = '';
-        for (let i in UsersArr) {
-            result += "User: " + UsersArr[i].user + "  Balance:  ₱" + UsersArr[i].balance + "\n";
+        for (let i in localStorage) {
+            if (isNaN(parseInt(i))) continue;
+            result += "User: " + JSON.parse(localStorage[i]).user + "  Balance:  ₱" + JSON.parse(localStorage[i]).balance + "\n";
         }
         return result;
     }

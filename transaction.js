@@ -84,7 +84,7 @@ function displayLogs() {
         dt.innerHTML = date[0] + "-" + ("0" + date[1]).slice(-2) + "-" + ("0" + date[2]).slice(-2);
         time = items[1].split(":");
         tm.innerHTML = ("0" + time[0]).slice(-2) + ":" + ("0" + time[1]).slice(-2) + ":" + ("0" + time[2]).slice(-2);
-        account.innerHTML = items[3];
+        account.innerHTML = items[3].replace(/-/g,' ');
         type.innerHTML = items[2];
         receiver.innerHTML = (type.innerHTML === 'Send') ? items[5] : "-";
         amount.innerHTML = formatter.format((parseFloat(items[4])));
