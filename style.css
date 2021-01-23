@@ -199,7 +199,7 @@ div.button-container{
     z-index: 10;
     padding: 10px 10px 10px 10px;
     color: #ffffff;
-    background-color:  darkgreen; 
+    background-color:  #104c36; 
     font-weight: 700;
     box-shadow: 0 0 10px rgba(0,0,0,0.5);
     border-bottom-left-radius: 2px;
@@ -215,7 +215,7 @@ div.button-container{
         z-index: 10;
         padding: 10px 10px 10px 10px;
         color: #ffffff;
-        background-color:  darkgreen; 
+        background-color:  #104c36; 
         font-weight: 700;
         box-shadow: 0 0 10px rgba(0,0,0,0.5);
         border-bottom-left-radius: 2px;
