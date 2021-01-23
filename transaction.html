@@ -10,6 +10,7 @@
     <link rel="icon" type="image/png" sizes="32x32" href="./favicon_io/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="./favicon_io/favicon-16x16.png">
     <link rel="manifest" href="./favicon_io/site.webmanifest">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 </head>
 
@@ -23,21 +24,23 @@
     <span>
         <p id="dev-options">Show Developer Options 👨‍💻</p>
     </span>
-    <button id="toggle"></button>
+    <button id="toggle">
+        <a><i class="fa fa-bars" id="icon"></i></a>
+    </button>
     <div id="sidebar" class="collapsed">
-            <div class="sidemenu"><a href="index.html" id="home">Home</a></div>
-            <div class="sidemenu"><a href="user.html" id="view">Users</a></div>
-            <div class="sidemenu"><a href="transaction.html" id="transactions">Transactions</a></div>
+        <div class="sidemenu"><a href="index.html" id="home">Home</a></div>
+        <div class="sidemenu"><a href="user.html" id="view">Users</a></div>
+        <div class="sidemenu"><a href="transaction.html" id="transactions" class="active">Transactions</a></div>
     </div>
-<div id="content">
-    
+    <div id="content">
+
         <div class="singleTransaction">
             <button id="balance">Get Balance</button>
             <button id="deposit">Deposit</button>
             <button id="withdraw">Withdraw</button>
             <button id="send">Send</button>
         </div>
-    
+
         <div class="batchTransaction">
             <button id="batch-deposit">Deposit Multiple</button>
             <button id="batch-withdraw">Withdraw Multiple</button>
@@ -57,7 +60,7 @@
                 </form>
                 <button class='transact'>Submit</button>
             </div>
-    
+
         </div>
         <div class="trxn">
             <h2>Transaction Logs</h2>
@@ -72,8 +75,8 @@
                 </tr>
             </table>
         </div>
-        
-</div>
+
+    </div>
 </body>
 <script src="script.js"> </script>
 <script src="transaction.js"> </script>

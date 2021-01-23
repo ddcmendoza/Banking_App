@@ -264,7 +264,7 @@ function transactionCB(type, isBatch) {
                 // MULTIPLE DEPOSIT
                 // number of transactions
                 let num = prompt("Number of deposit transactions:");
-                if(num === null) {
+                if (num === null) {
                     location.reload();
                     return;
                 }
@@ -369,7 +369,7 @@ function transactionCB(type, isBatch) {
                 let submitAll = document.createElement('button');
 
                 let num = prompt("Number of withdraw transactions:");
-                if(num === null) {
+                if (num === null) {
                     location.reload();
                     return;
                 }
@@ -497,7 +497,7 @@ function transactionCB(type, isBatch) {
                 document.getElementsByClassName('balance')[0].style.display = 'none';
                 document.getElementsByClassName('balance-label')[0].style.display = 'none';
                 let num = prompt("Number of Send transactions:");
-                if(num === null) {
+                if (num === null) {
                     location.reload();
                     return;
                 }
@@ -590,9 +590,9 @@ function transactionCB(type, isBatch) {
 window.onload = (event) => {
     displayLogs();
     let body = document.body.children;
-    for(let i = 0; i < body.length; i++){
-        if(body[i].className !== ""){
-            body[i].style.animation = "fade "+ 2 + "s";
+    for (let i = 0; i < body.length; i++) {
+        if (body[i].className !== "") {
+            body[i].style.animation = "fade " + 2 + "s";
         }
     }
 };

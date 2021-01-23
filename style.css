@@ -7,7 +7,7 @@
     font-family: Rubik;
 }
 body{
-    background-image: radial-gradient(green, darkgreen 15%, lightgreen 95%);
+    background-image: radial-gradient(aliceblue, beige 15%, white 95%);
     margin:0;
 }
 
@@ -90,6 +90,7 @@ div.body-wrapper{
     background-color: aliceblue;
     opacity: 85%;
     padding-left: 1em;
+    padding-bottom: 1em;
 }
 
 div.user-container{
@@ -276,14 +277,14 @@ div.tradingview-widget-container{
 
 #sidebar, #content {
     float:left;
-    transition: width .35s;
+    transition: width .5s;
     overflow:auto;
 }
 
 #sidebar {
     width: 15%;
     text-shadow: 1px 1px 0 dimgray;
-    background-color: darkgreen;
+    background-color: #104c36;
     height: 100vh;
 }
 
@@ -302,12 +303,12 @@ div.tradingview-widget-container{
 
 button#toggle {
     box-shadow: none;
-    width: 30px;
-    height: 30px;
-    background: darkgreen;
+    width: 50px;
+    height: 50px;
+    background: #104c36;
     border-radius: 0%;
     margin-bottom: 10px;
-    border-radius: 0 0 50% 0;
+    border-radius: 0 0 30% 0;
     border:none;
     outline:none;
 }
@@ -324,4 +325,13 @@ div.sidemenu::before{
 h2#subtitle{
     position: relative;
     top: -3vh;
+}
+.active::before{
+    content:"";
+    border-left: 5px solid lightgreen;
+    height: 100%;
+    margin-right: .5em;
+}
+h1#title{
+    padding-top:1em;
 }

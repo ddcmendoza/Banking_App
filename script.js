@@ -206,9 +206,9 @@ function list_users() {
 
 window.onload = (event) => {
     let body = document.body.children;
-    for(let i = 0; i < body.length; i++){
-        if(body[i].className !== ""){
-            body[i].style.animation = "fade "+ Math.sqrt(1.5*i) + "s";
+    for (let i = 0; i < body.length; i++) {
+        if (body[i].className !== "") {
+            body[i].style.animation = "fade " + Math.sqrt(1.5 * i) + "s";
         }
     }
 };
@@ -216,7 +216,12 @@ window.onload = (event) => {
 
 const sidebar = document.getElementById('sidebar');
 const button = document.getElementById('toggle');
+const icon = document.getElementById('icon');
+const icon2 = document.getElementById('icon2');
 
-button.addEventListener('mouseenter', _ => {
-  sidebar.classList.toggle('collapsed');
+
+button.addEventListener('click', _ => {
+    sidebar.classList.toggle('collapsed');
+    icon.classList.toggle('fa-bars');
+    icon.classList.toggle('fa-close');
 });
