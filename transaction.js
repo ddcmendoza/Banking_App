@@ -271,7 +271,6 @@ function transactionCB(type, isBatch) {
                 // check if num is valid number
                 while (num <= 0 || isNaN(parseInt(num))) {
                     num = parseInt(prompt("Must be a number and greater than 0"));
-                    console.log(num);
                 }
 
                 // copies number of transaction
