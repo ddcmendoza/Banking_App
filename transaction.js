@@ -271,6 +271,7 @@ function transactionCB(type, isBatch) {
                 // check if num is valid number
                 while (num <= 0 || isNaN(parseInt(num))) {
                     num = parseInt(prompt("Must be a number and greater than 0"));
+                    console.log(num);
                 }
 
                 // copies number of transaction
@@ -369,6 +370,7 @@ function transactionCB(type, isBatch) {
 
                 let num = prompt("Number of withdraw transactions:");
                 if(num === null) {
+
                     location.reload();
                     return;
                 }
@@ -589,9 +591,9 @@ function transactionCB(type, isBatch) {
 window.onload = (event) => {
     displayLogs();
     let body = document.body.children;
-    for(let i = 0; i < body.length; i++){
-        if(body[i].className !== ""){
-            body[i].style.animation = "fade "+ 2 + "s";
+    for (let i = 0; i < body.length; i++) {
+        if (body[i].className !== "") {
+            body[i].style.animation = "fade " + 2 + "s";
         }
     }
 };
