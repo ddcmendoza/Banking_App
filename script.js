@@ -1,6 +1,9 @@
 /* Test JS
 alert("Start pushing"); */
-
+// added for history log implementation
+if(window.localStorage.length === 0){
+    window.localStorage.setItem('history', JSON.stringify({ 'transactions': [] }));
+}
 
 // DOM Variables
 let InitialDataBtn = document.querySelector("#loadDataBtn");
