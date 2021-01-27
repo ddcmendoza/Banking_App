@@ -105,7 +105,7 @@ div.singleTransaction{
 button{
     padding: .5em;
     margin-right: .5em;
-    box-shadow: 2px 2px 1px aliceblue;
+    box-shadow: 1px 1px 1px aliceblue;
     font-size: 20px;
     z-index: 1;
     border-radius: 1em;
@@ -172,19 +172,21 @@ div.worldnews>h4, div.businessnews>h4{
 }
 
 table{
+    border-collapse: collapse;
     margin-top: 2em;
     width: 100%;
-    border: 1px solid dimgray;
     background: aliceblue;
-    opacity: 85%;
-    border-radius: 1em;
+    opacity: 90%;
 }
 th,td{
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
     border: 1px solid dimgray;
-    border-radius: 1em;
-    padding-left: .5em;
 }
-
+tr:nth-child(even) {
+    background-color: #dddddd;
+  }
 textarea, div#userbox>div{
     margin-left: .5em;
 }
@@ -221,6 +223,7 @@ div.button-container{
         border-bottom-left-radius: 2px;
         border-bottom-right-radius: 2px;
 }
+
 
 div.worldnews{
     grid-area: news1;
@@ -289,6 +292,7 @@ div.tradingview-widget-container{
     text-shadow: 1px 1px 0 dimgray;
     background-color: #104c36;
     height: 100vh;
+    overflow: hidden;
 }
 
 #sidebar.collapsed {
@@ -343,4 +347,56 @@ h1#title{
 }
 #toggle:hover{
     background-color:green;
+}
+
+input {
+    border:1px solid #000000;
+    border-radius:7px;
+    font-size:15px;
+    padding:5px;
+}
+input:focus { 
+    outline:none;
+    border-color:#9ecaed;
+    box-shadow:0 0 10px #9ecaed;
+}
+
+.trxn{
+    margin:auto;
+    width:90vw;
+    border-radius: 20px;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+    padding: 20px;
+}
+
+button.transact, button.addusers, button#submitAll{
+    margin-left:20px; 
+    color: white; 
+    background-color: #4CAF50;
+    padding: 13px;
+    border: none;
+    font-size: 18px;
+}
+
+.singleTransaction>button{
+    padding: 1rem;
+    border: 1px solid grey; 
+    border-radius: 0.7rem;
+    font-size: 1.2rem;
+    color: black;
+}
+
+.batchTransaction>button{
+    padding: 1rem;
+    border: 1px solid grey; 
+    border-radius: 0.7rem;
+    font-size: 1.2rem;
+    color: black;
+}
+#loadDataBtn,#clearLocal{
+    padding: 1rem;
+    border: 1px solid grey; 
+    border-radius: 0.7rem;
+    font-size: 1.0rem;
+    color: black;
 }

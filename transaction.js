@@ -84,7 +84,7 @@ function displayLogs() {
         dt.innerHTML = date[0] + "-" + ("0" + date[1]).slice(-2) + "-" + ("0" + date[2]).slice(-2);
         time = items[1].split(":");
         tm.innerHTML = ("0" + time[0]).slice(-2) + ":" + ("0" + time[1]).slice(-2) + ":" + ("0" + time[2]).slice(-2);
-        account.innerHTML = items[3].replace(/-/g,' ');
+        account.innerHTML = items[3].replace(/-/g, ' ');
         type.innerHTML = items[2];
         receiver.innerHTML = (type.innerHTML === 'Send') ? items[5] : "-";
         amount.innerHTML = formatter.format((parseFloat(items[4])));
@@ -172,7 +172,7 @@ function processAndLog(user, type, isBatch, amount = 0) {
                 obj = JSON.stringify(obj);
                 localStorage.setItem(i, obj);
                 hist.transactions.unshift(date + " " + time + " " + "Deposit " + user.capitalize() + " " + amount);
-                alert("Successful Transaction!");
+                alert("Deposit to Account: '" + user + "' Successful!");
             }
             if (type === "Withdraw" && isBatch === false) {
                 obj.balance = obj.balance - amount;
@@ -184,7 +184,7 @@ function processAndLog(user, type, isBatch, amount = 0) {
                 obj = JSON.stringify(obj);
                 localStorage.setItem(i, obj);
                 hist.transactions.unshift(date + " " + time + " " + "Withdraw " + user.capitalize() + " " + amount);
-                alert("Successful Transaction!");
+                alert("Withdraw from Account: '" + user + "' Successful!");
             }
             hist = JSON.stringify(hist);
             localStorage.setItem('history', hist);
@@ -264,7 +264,7 @@ function transactionCB(type, isBatch) {
                 // MULTIPLE DEPOSIT
                 // number of transactions
                 let num = prompt("Number of deposit transactions:");
-                if(num === null) {
+                if (num === null) {
                     location.reload();
                     return;
                 }
@@ -305,12 +305,12 @@ function transactionCB(type, isBatch) {
                             let user = names[i].value;
                             let amount = (amounts[i].value === "") ? 0 : parseFloat(amounts[i].value);
                             if (amount <= 0) {
-                                errors += "\n" + i + ".) Deposit for '" + user + "' : Amount Can't be 0 or Negative";
+                                errors += "\n Deposit for '" + user + "' : Amount Can't be 0 or Negative";
                                 continue;
                             }
 
                             if (!isIn(user, users)) {
-                                errors += "\n" + i + ".) Deposit for '" + user + "' : User Invalid Name and/or User Doesn't Exist...";
+                                errors += "\n Deposit for '" + user + "' : User Invalid Name and/or User Doesn't Exist...";
                                 continue;
                             }
 
@@ -328,6 +328,7 @@ function transactionCB(type, isBatch) {
                                     hist.transactions.unshift(date + " " + time + " " + "Deposit " + user.capitalize() + " " + amount);
                                     hist = JSON.stringify(hist);
                                     localStorage.setItem('history', hist);
+                                    alert("Deposit/s Successful!");
                                 }
 
                             }
@@ -368,7 +369,7 @@ function transactionCB(type, isBatch) {
                 let submitAll = document.createElement('button');
 
                 let num = prompt("Number of withdraw transactions:");
-                if(num === null) {
+                if (num === null) {
 
                     location.reload();
                     return;
@@ -425,6 +426,7 @@ function transactionCB(type, isBatch) {
                                     hist.transactions.unshift(date + " " + time + " " + "Withdraw " + user.capitalize() + " " + amount);
                                     hist = JSON.stringify(hist);
                                     localStorage.setItem('history', hist)
+                                    alert("Withdrawal/s Successful!");
                                 }
                             }
                         }
@@ -497,7 +499,7 @@ function transactionCB(type, isBatch) {
                 document.getElementsByClassName('balance')[0].style.display = 'none';
                 document.getElementsByClassName('balance-label')[0].style.display = 'none';
                 let num = prompt("Number of Send transactions:");
-                if(num === null) {
+                if (num === null) {
                     location.reload();
                     return;
                 }
@@ -541,11 +543,11 @@ function transactionCB(type, isBatch) {
                                 continue;
                             }
                             if (!isIn(user, users)) {
-                                errors += "\n Sending for '" + user + "' to '" + receiver + "' : User Invalid Name and/or Sender Doesn't Exist...";
+                                errors += "\n Sending for '" + user + "' to '" + receiver + "' : Sender Doesn't Exist...";
                                 continue;
                             }
                             if (!isIn(receiver, users)) {
-                                errors += "\n Sending for '" + user + "' to '" + receiver + "' : User Invalid Name and/or Sender Doesn't Exist...";
+                                errors += "\n Sending for '" + user + "' to '" + receiver + "' : Receiver Doesn't Exist...";
                                 continue;
                             }
                             for (let j = 0; j < window.localStorage.length - 1; j++) {
@@ -568,6 +570,7 @@ function transactionCB(type, isBatch) {
                                                 hist.transactions.unshift(date + " " + time + " " + "Send " + user.capitalize() + " " + amount + " " + receiver.capitalize());
                                                 hist = JSON.stringify(hist);
                                                 localStorage.setItem('history', hist)
+                                                alert("Send/s Successful!")
                                             }
                                         }
                                     }
