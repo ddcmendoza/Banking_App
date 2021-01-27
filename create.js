@@ -11,7 +11,8 @@ const ADDS = document.getElementById('batch-add');
 const ADDCONTAINER = document.getElementsByClassName('add-container');
 const ADDSCONTAINER = document.getElementsByClassName('adds-container')[0];
 
-const NUMS = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+const NUMS = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9','!','@','#','$','%','^','&','*','(',')','-','+','=','_','}','{',']','[','\\','|',':',';','/','>','<','.',',','\''];
+const SPECIAL = ['!','@','#','$','%','^','&','*','(',')','-','+','=','_','}','{',']','[','\\','|',':',';','/','>','<','.',',','\''];
 let users = [];
 
 for (let i = 0; i < window.localStorage.length - 1; i++) {
@@ -52,14 +53,28 @@ ADD.addEventListener(
                 let names = document.getElementsByClassName('name');
                 let balances = document.getElementsByClassName('balance');
                 let user = names[0].value.capitalize();
+                
                 user = user.replace(/\s/g,"-");
 
+                let spec = false;
+                for(let i = 0; i < user.length;i++){
+                    if(isIn(user[i],SPECIAL)){
+                        spec = true;
+                        break;
+                    }
+                }
+                if(spec){
+                    alert("Can't have special characters on name");
+                    location.reload();
+                    return "Can't have special characters on name";
+                }
 
                 if (user === '' || isIn(user[0], NUMS)) {
                     alert("Name can't be empty or start with a number");
                     location.reload();
                     return "Invalid Name and/or User Already Exists...";
                 }
+                
 
                 if (isIn(user, users)) {
                     alert("User Already Exists...");
@@ -146,10 +161,21 @@ ADDS.addEventListener(
                 for (let i = 0; i < names.length; i++) {
 
                     let user = names[i].value.capitalize();
+                    let spec = false;
+                    for(let i = 0; i < user.length;i++){
+                        if(isIn(user[i],SPECIAL)){
+                            spec = true;
+                            break;
+                        }
+                    }
+                    if(spec){
+                        errors += "\n Entry for '" + user + "' : Can't have special characters on name";
+                        continue;
+                    }
                     user = user.replace(/\s/g,"-");
                     if (user === '' || isIn(user[0], NUMS)) {
                         errors += "\n Entry for '" + user + "' : Name Can't be Empty or start with number";
-                        continue;
+                        
                     }
                     if (isIn(user, users)) {
                         errors += "\n Entry for '" + user + "' : User Already Exists...";
