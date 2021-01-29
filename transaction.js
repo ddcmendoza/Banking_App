@@ -86,7 +86,7 @@ function displayLogs() {
         tm.innerHTML = ("0" + time[0]).slice(-2) + ":" + ("0" + time[1]).slice(-2) + ":" + ("0" + time[2]).slice(-2);
         account.innerHTML = items[3].replace(/-/g, ' ');
         type.innerHTML = items[2];
-        receiver.innerHTML = (type.innerHTML === 'Send') ? items[5] : "-";
+        receiver.innerHTML = (type.innerHTML === 'Send') ? items[5].replace(/-/g, ' ') : "-";
         amount.innerHTML = formatter.format((parseFloat(items[4])));
         tr.appendChild(dt);
         tr.appendChild(tm);
