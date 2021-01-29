@@ -12,7 +12,7 @@ const ADDCONTAINER = document.getElementsByClassName('add-container');
 const ADDSCONTAINER = document.getElementsByClassName('adds-container')[0];
 
 const NUMS = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '-', '+', '=', '_', '}', '{', ']', '[', '\\', '|', ':', ';', '/', '>', '<', '.', ',', '\''];
-const SPECIAL = ['!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '-', '+', '=', '_', '}', '{', ']', '[', '\\', '|', ':', ';', '/', '>', '<', '.', ',', '\''];
+const SPECIAL = ['!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '+', '=', '_', '}', '{', ']', '[', '\\', '|', ':', ';', '/', '>', '<', '.', ',', '\''];
 let users = [];
 
 for (let i = 0; i < window.localStorage.length - 1; i++) {
@@ -206,9 +206,10 @@ ADDS.addEventListener(
                     hist = JSON.stringify(hist);
                     localStorage.setItem('history', hist);
 
-                    alert("User/s Added Successfully!");
+                    
                 }
                 if (errors !== "Errors") alert(errors);
+                alert("User/s Added Successfully!");
                 location.reload();
             });
 
