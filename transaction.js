@@ -156,8 +156,9 @@ function processAndLog(user, type, isBatch, amount = 0) {
 
     // check if user exists already and process (single transactions)
     for (let i = 0; i < window.localStorage.length - 1; i++) {
-        let obj = JSON.parse(localStorage[i])
-        if (user.toUpperCase() === obj.user.toUpperCase()) {
+        let obj = JSON.parse(localStorage[i]);
+        user = user.replace(/\s/g,"-");
+         if (user.toUpperCase() === obj.user.toUpperCase()) {
             let today = new Date();
             let date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
             let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
@@ -172,7 +173,7 @@ function processAndLog(user, type, isBatch, amount = 0) {
                 obj = JSON.stringify(obj);
                 localStorage.setItem(i, obj);
                 hist.transactions.unshift(date + " " + time + " " + "Deposit " + user.capitalize() + " " + amount);
-                alert("Deposit to Account: '" + user + "' Successful!");
+                alert("Deposit to Account: '" + user.replace(/-/g," ") + "' Successful!");
             }
             if (type === "Withdraw" && isBatch === false) {
                 obj.balance = obj.balance - amount;
@@ -184,7 +185,7 @@ function processAndLog(user, type, isBatch, amount = 0) {
                 obj = JSON.stringify(obj);
                 localStorage.setItem(i, obj);
                 hist.transactions.unshift(date + " " + time + " " + "Withdraw " + user.capitalize() + " " + amount);
-                alert("Withdraw from Account: '" + user + "' Successful!");
+                alert("Withdraw from Account: '" + user.replace(/-/g," ") + "' Successful!");
             }
             hist = JSON.stringify(hist);
             localStorage.setItem('history', hist);
@@ -303,6 +304,7 @@ function transactionCB(type, isBatch) {
                         // loops through all containers
                         for (let i = 0; i < names.length; i++) {
                             let user = names[i].value;
+                            user = user.replace(/\s/g, "-");
                             let amount = (amounts[i].value === "") ? 0 : parseFloat(amounts[i].value);
                             if (amount <= 0) {
                                 errors += "\n Deposit for '" + user + "' : Amount Can't be 0 or Negative";
@@ -328,12 +330,13 @@ function transactionCB(type, isBatch) {
                                     hist.transactions.unshift(date + " " + time + " " + "Deposit " + user.capitalize() + " " + amount);
                                     hist = JSON.stringify(hist);
                                     localStorage.setItem('history', hist);
-                                    alert("Deposit/s Successful!");
+                                    
                                 }
 
                             }
                         }
                         if (errors !== "Errors") alert(errors);
+                        alert("Deposit/s Successful!");
                         location.reload();
                     });
             }
@@ -399,6 +402,7 @@ function transactionCB(type, isBatch) {
                         let errors = "Errors";
                         for (let i = 0; i < names.length; i++) {
                             let user = names[i].value;
+                            user = user.replace(/\s/g, "-");
                             let amount = (amounts[i].value === "") ? 0 : parseFloat(amounts[i].value);
                             if (amount < 0) {
                                 continue;
@@ -426,11 +430,12 @@ function transactionCB(type, isBatch) {
                                     hist.transactions.unshift(date + " " + time + " " + "Withdraw " + user.capitalize() + " " + amount);
                                     hist = JSON.stringify(hist);
                                     localStorage.setItem('history', hist)
-                                    alert("Withdrawal/s Successful!");
+                                    
                                 }
                             }
                         }
                         if (errors !== "Errors") alert(errors);
+                        alert("Withdrawal/s Successful!");
                         location.reload();
                     });
             }
@@ -448,8 +453,10 @@ function transactionCB(type, isBatch) {
 
                     () => {
                         let user = document.getElementsByClassName('name')[0].value;
+                        user = user.replace(/\s/g, "-");
                         let amount = parseFloat(document.getElementsByClassName('amount')[0].value);
                         let receiver = document.getElementsByClassName('rec-name')[0].value;
+                        receiver = receiver.replace(/\s/g, "-");
                         if (isNaN(amount) || amount < 0) {
                             alert("Invalid Transfer Amount!");
                             location.reload();
@@ -536,8 +543,10 @@ function transactionCB(type, isBatch) {
 
                         for (let i = 0; i < names.length; i++) {
                             let user = names[i].value;
+                            user = user.replace(/\s/g, "-");
                             let amount = (amounts[i].value === "") ? 0 : parseFloat(amounts[i].value);
                             let receiver = receivers[i].value;
+                            receiver = receiver.replace(/\s/g, "-");
                             if (amount <= 0) {
                                 errors += "\n Sending for '" + user + "' : Amount can't be 0 or negative";
                                 continue;
@@ -552,6 +561,7 @@ function transactionCB(type, isBatch) {
                             }
                             for (let j = 0; j < window.localStorage.length - 1; j++) {
                                 let obj = JSON.parse(localStorage[j]);
+                                
                                 if (user.toUpperCase() === obj.user.toUpperCase()) {
                                     if (obj.balance >= amount) {
                                         for (let k = 0; k < window.localStorage.length - 1; k++) {
@@ -570,7 +580,7 @@ function transactionCB(type, isBatch) {
                                                 hist.transactions.unshift(date + " " + time + " " + "Send " + user.capitalize() + " " + amount + " " + receiver.capitalize());
                                                 hist = JSON.stringify(hist);
                                                 localStorage.setItem('history', hist)
-                                                alert("Send/s Successful!")
+                                                
                                             }
                                         }
                                     }
@@ -582,6 +592,7 @@ function transactionCB(type, isBatch) {
                             }
                         }
                         if (errors !== "Errors") alert(errors);
+                        alert("Send/s Successful!");
                         location.reload();
                     });
             }
